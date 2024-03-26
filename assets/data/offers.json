@@ -1,0 +1,31 @@
+[
+  {
+    "id": "5",
+    "name": "FitFuel Delights",
+    "discount": "15% Off",
+    "description": "Get 15% off on all orders above $20. Valid until the end of the month.",
+    "image":"https://images.unsplash.com/photo-1494597564530-871f2b93ac55?q=80&w=3426&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    "id": "6",
+    "name": "Lean & Green Combo",
+    "discount": "$5 Off",
+    "description": "Enjoy a $5 discount on our Lean & Green Combo meal. Limited time offer!",
+    "image": "https://images.unsplash.com/photo-1535914254981-b5012eebbd15?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    "id": "7",
+    "name": "Protein Power Lunch",
+    "discount": "Free Protein Shake",
+    "description": "Order any Protein Power Lunch and get a complimentary protein shake added to your order.",
+    "image": "https://images.unsplash.com/photo-1532301791573-4e6ce86a085f?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvdGllbiUyMHNoYWtlfGVufDB8fDB8fHww"
+  },
+  {
+    "id": "8",
+    "name": "FitFusion Meal Pack",
+    "discount": "20% Off",
+    "description": "Get 20% off on our FitFusion Meal Pack - a curated selection of protein-rich, low-calorie meals.",
+    "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWVhbCUyMHBhY2t8ZW58MHx8MHx8fDA%3D"
+  }
+]
+
