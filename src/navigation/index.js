@@ -27,6 +27,7 @@ const RootNavigator = () => {
 };
 
 const Tab = createMaterialBottomTabNavigator();
+
 const HomeTabs = () => {
   return (
     <Tab.Navigator barStyle={{ backgroundColor: "white" }}>
@@ -75,10 +76,19 @@ const BrowseStack = createNativeStackNavigator();
 const BrowseStackNavigator = () => {
   return (
     <BrowseStack.Navigator>
-      <BrowseStack.Screen name="Browse" component={Browse} />
-      <BrowseStack.Screen name="Restaurant" component={RestaurantDetailsPage} />
+      <BrowseStack.Screen
+        options={{ headerShown: false }}
+        name="BrowseRestaurants"
+        component={Browse}
+      />
+      <BrowseStack.Screen
+        options={{ headerShown: false }}
+        name="RestaurantDetails"
+        component={RestaurantDetailsPage}
+      />
       <BrowseStack.Screen name="DishDetails" component={DishDetails} />
     </BrowseStack.Navigator>
   );
 };
+
 export default RootNavigator;

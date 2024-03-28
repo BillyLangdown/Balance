@@ -12,7 +12,7 @@ export default function Home() {
       <FlatList
         ListHeaderComponent={() => (
           <>
-            <HomeHeader />
+            <HomeHeader style={styles.header} />
             <Text style={styles.subtitle}>Discounts</Text>
           </>
         )}
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   subtitle: {
+    marginVertical: 10,
     fontSize: 20,
     fontWeight: "600",
     padding: 15,
