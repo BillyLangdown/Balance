@@ -48,9 +48,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   subtitle: {
-    marginVertical: 10,
     fontSize: 20,
     fontWeight: "600",
-    padding: 15,
+    padding: 10,
   },
 });

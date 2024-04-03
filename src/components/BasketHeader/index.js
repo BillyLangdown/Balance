@@ -1,12 +1,19 @@
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Pressable } from "react-native";
 import React from "react";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const BasketHeader = () => {
+  const navigator = useNavigation();
   return (
-    <View style={styles.basketContainer}>
+    <Pressable
+      onPress={() => {
+        navigator.navigate("Basket");
+      }}
+      style={styles.basketContainer}
+    >
       <FontAwesome6 name="basket-shopping" size={20} color="black" />
-    </View>
+    </Pressable>
   );
 };
 

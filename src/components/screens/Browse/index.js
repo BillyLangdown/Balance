@@ -1,18 +1,35 @@
-import { FlatList, StyleSheet, View, Text } from "react-native";
+import { FlatList, StyleSheet, View, Text, Pressable } from "react-native";
 import RestaurantItem from "../../RestaurantItem";
-import Restaurants from "../../../../assets/data/restaurants.json";
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Searchbar } from "react-native-paper";
 import BasketHeader from "../../BasketHeader";
+import { generateClient } from "aws-amplify/api";
+import { listRestaurants } from "../../../graphql/queries";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Browse() {
+  const [restaurants, setRestaurants] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const navigator = useNavigation();
+
+  const client = generateClient();
+
+  const fetchRestaurants = async () => {
+    const results = await client.graphql({
+      query: listRestaurants,
+    });
+    setRestaurants(results.data.listRestaurants.items);
+  };
+
+  useEffect(() => {
+    fetchRestaurants();
+  }, []);
 
   return (
     <View style={styles.page}>
       <View style={styles.row}>
-        <Text>Current Location</Text>
-
+        <Text style={styles.currentLocation}>Current Location</Text>
         <BasketHeader />
       </View>
       <Searchbar
@@ -20,10 +37,9 @@ export default function Browse() {
         placeholder="Search"
         onChangeText={setSearchQuery}
         value={searchQuery}
-        on
       />
       <FlatList
-        data={Restaurants}
+        data={restaurants}
         renderItem={({ item }) => <RestaurantItem restaurant={item} />}
         showsVerticalScrollIndicator={false}
       />
@@ -34,7 +50,8 @@ export default function Browse() {
 const styles = StyleSheet.create({
   page: {
     padding: 25,
-    paddingTop: 90,
+    paddingTop: 80,
+    paddingBottom: 150,
   },
   input: {
     margin: 12,
@@ -44,4 +61,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  currentLocation: {},
 });

@@ -1,12 +1,14 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import restaurants from "../../../../assets/data/restaurants.json";
-const dish = restaurants[0].dishes[0];
+import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
 import Basket from "../Basket";
+import basketContext from "../../../contexts/basketContext";
 
-export default function DishDetails() {
+export default function DishDetails({ route }) {
+  const { dish } = route.params;
+  const { basket, setBasket } = useContext(basketContext);
+
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(1);
 
@@ -21,34 +23,46 @@ export default function DishDetails() {
   };
 
   const getTotal = () => {
-    return (dish.price * quantity).toFixed(2);
+    const total = (dish.price * quantity).toFixed(2);
+
+    return total;
+  };
+
+  const onAdd = () => {
+    const newItem = {
+      dish: dish,
+      quantity: quantity,
+      totalPrice: getTotal(),
+    };
+
+    const newBasket = [...basket, newItem];
+    setBasket(newBasket);
+    navigation.navigate(Basket);
   };
 
   return (
     <View style={styles.page}>
-      <Text style={styles.name}>{dish.name} </Text>
+      <Image source={{ uri: dish.image }} style={styles.image} />
+
       <Text style={styles.description}>{dish.description}</Text>
       <View style={styles.separator} />
       <View style={styles.row}>
         <AntDesign
           name="minuscircleo"
-          size={60}
+          size={55}
           color={"black"}
           onPress={onMinus}
         />
         <Text style={styles.quantity}> {quantity}</Text>
         <AntDesign
           name="pluscircleo"
-          size={60}
+          size={55}
           color={"black"}
           onPress={onPlus}
         />
       </View>
 
-      <Pressable
-        onPress={() => navigation.navigate(Basket)}
-        style={styles.button}
-      >
+      <Pressable onPress={() => onAdd()} style={styles.button}>
         <Text style={styles.buttonText}>
           {" "}
           Add {quantity} to basket &#8226; (${getTotal()})
@@ -95,5 +109,14 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "500",
     fontSize: 20,
+  },
+  image: {
+    width: "100%",
+    aspectRatio: 5 / 3,
+  },
+  description: {
+    paddingVertical: 15,
+    fontSize: 15,
+    fontWeight: "500",
   },
 });

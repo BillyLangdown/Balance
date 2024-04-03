@@ -24,4 +24,9 @@ export default StyleSheet.create({
     top: 50,
     left: 20,
   },
+  ActivityIndicator: {
+    justifyContent: "center",
+    alignSelf: "center",
+    paddingTop: 400,
+  },
 });

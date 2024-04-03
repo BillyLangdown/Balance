@@ -4,12 +4,10 @@ import Browse from "../components/screens/Browse";
 import RestaurantDetailsPage from "../components/screens/RestaurantDetails";
 import DishDetails from "../components/screens/DishDetails";
 import Basket from "../components/screens/Basket";
-import Orders from "../components/screens/Orders";
-import OrderDetails from "../components/screens/OrderDetails";
+
 import {
   Foundation,
   FontAwesome,
-  FontAwesome6,
   MaterialIcons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
@@ -87,6 +85,7 @@ const BrowseStackNavigator = () => {
         component={RestaurantDetailsPage}
       />
       <BrowseStack.Screen name="DishDetails" component={DishDetails} />
+      <BrowseStack.Screen name="Basket" component={Basket} />
     </BrowseStack.Navigator>
   );
 };

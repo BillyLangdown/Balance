@@ -8,19 +8,17 @@ import {
 } from "react-native";
 import React from "react";
 import profiles from "../../../../assets/data/profiles.json";
-import {
-  Ionicons,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { Ionicons, Fontisto } from "@expo/vector-icons";
+import { useAuthenticator } from "@aws-amplify/ui-react-native";
 
 const Profile = () => {
+  const { signOut } = useAuthenticator();
   const profile = profiles[0];
 
   const SignoutButton = ({ item }) => {
     if (item.key === "Sign Out") {
       return (
-        <TouchableOpacity onPress={() => handleSignOut()}>
+        <TouchableOpacity onPress={() => signOut()}>
           <View style={styles.signout}>
             <Text style={styles.signoutText}>{item.key}</Text>
           </View>
@@ -28,10 +26,6 @@ const Profile = () => {
       );
     }
     return <Text style={styles.item}>{item.key}</Text>;
-  };
-
-  const handleSignOut = () => {
-    console.log("Sign out button pressed");
   };
 
   const data = [
@@ -48,12 +42,25 @@ const Profile = () => {
     <FlatList
       data={data}
       ListHeaderComponent={() => (
-        <View style={styles.headerRow}>
-          <View style={styles.profileInfo}>
-            <Text style={styles.title}>{profile.fullname}</Text>
-            <Text style={styles.subtitle}>@{profile.username}</Text>
+        <View style={styles.ListHeaderComponent}>
+          <View style={styles.headerRow}>
+            <View style={styles.profileInfo}>
+              <Text style={styles.title}>{profile.fullname}</Text>
+              <Text style={styles.subtitle}>@{profile.username}</Text>
+            </View>
+            <Image source={{ uri: profile.image }} style={styles.image} />
           </View>
-          <Image source={{ uri: profile.image }} style={styles.image} />
+          <View style={styles.iconRow}>
+            <View style={styles.iconContainer}>
+              <Ionicons name="wallet" size={32} color="#333" />
+            </View>
+            <View style={styles.iconContainer}>
+              <Ionicons name="heart" size={32} color="#333" />
+            </View>
+            <View style={styles.iconContainer}>
+              <Fontisto name="history" size={32} color="#333" />
+            </View>
+          </View>
         </View>
       )}
       renderItem={SignoutButton}
@@ -74,7 +81,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   headerRow: {
-    paddingTop: 80,
+    paddingTop: 50,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -122,5 +129,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     color: "#fff",
+  },
+  iconContainer: {
+    backgroundColor: "lightgrey",
+    width: 80,
+    height: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 15,
+  },
+  iconRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  ListHeaderComponent: {
+    paddingHorizontal: 10,
+    borderBottomColor: "lightgrey",
+    paddingBottom: 20,
+    borderBottomWidth: 1,
+    marginBottom: 10,
   },
 });

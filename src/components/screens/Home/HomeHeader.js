@@ -1,5 +1,4 @@
-import { View, Text, StyleSheet, Image } from "react-native";
-import balance from "../../../../assets/balance.png";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import BasketHeader from "../../BasketHeader";
 
 const HomeHeader = () => {
@@ -20,7 +19,7 @@ const styles = StyleSheet.create({
   header: {
     height: 100,
     marginTop: 60,
-    marginBottom: 20,
+    marginBottom: 10,
     alignItems: "center",
     marginRight: 55,
   },
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
   },
 
   title: {

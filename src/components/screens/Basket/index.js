@@ -1,24 +1,28 @@
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import restaurants from "../../../../assets/data/restaurants.json";
-const restaurant = restaurants[0];
-import { AntDesign } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import BasketDishItem from "../../BasketDishItem";
+import basketContext from "../../../contexts/basketContext";
+import EmptyBasket from "../../EmptyBasket";
 
 export default function Basket() {
   const [quantity, setQuantity] = useState(1);
+  const { basket, setBasket } = useContext(basketContext);
 
-  return (
+  useEffect(() => {
+    console.log("Basket Context:", basket);
+  }, [basket]);
+
+  return basket.length === 0 ? (
+    <View>
+      <EmptyBasket />
+    </View>
+  ) : (
     <View style={styles.page}>
-      <Text style={styles.name}>{restaurant.name} </Text>
-      <Text style={styles.subtitle}>Your items</Text>
-
       <FlatList
-        data={restaurant.dishes}
+        data={basket}
         renderItem={({ item }) => <BasketDishItem basketDish={item} />}
       />
       <View style={styles.separator} />
-
       <View style={styles.button}>
         <Text style={styles.buttonText}> Create order</Text>
       </View>
