@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   FlatList,
   TouchableOpacity,
 } from "react-native";
@@ -48,7 +47,6 @@ const Profile = () => {
               <Text style={styles.title}>{profile.fullname}</Text>
               <Text style={styles.subtitle}>@{profile.username}</Text>
             </View>
-            <Image source={{ uri: profile.image }} style={styles.image} />
           </View>
           <View style={styles.iconRow}>
             <View style={styles.iconContainer}>

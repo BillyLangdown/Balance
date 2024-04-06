@@ -3,14 +3,12 @@ import { useState, useContext, useEffect } from "react";
 import BasketDishItem from "../../BasketDishItem";
 import basketContext from "../../../contexts/basketContext";
 import EmptyBasket from "../../EmptyBasket";
+import { generateClient } from "aws-amplify/api";
+import { getRestaurant } from "../../../graphql/queries";
 
 export default function Basket() {
   const [quantity, setQuantity] = useState(1);
   const { basket, setBasket } = useContext(basketContext);
-
-  useEffect(() => {
-    console.log("Basket Context:", basket);
-  }, [basket]);
 
   return basket.length === 0 ? (
     <View>
@@ -19,6 +17,7 @@ export default function Basket() {
   ) : (
     <View style={styles.page}>
       <FlatList
+        ListHeaderComponent={<Text style={styles.orders}>Current order</Text>}
         data={basket}
         renderItem={({ item }) => <BasketDishItem basketDish={item} />}
       />
@@ -85,6 +84,11 @@ const styles = StyleSheet.create({
 
   dishName: {
     fontSize: 15,
+    fontWeight: "600",
+  },
+  orders: {
+    padding: 10,
+    fontSize: 25,
     fontWeight: "600",
   },
 });

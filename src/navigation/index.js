@@ -4,6 +4,7 @@ import Browse from "../components/screens/Browse";
 import RestaurantDetailsPage from "../components/screens/RestaurantDetails";
 import DishDetails from "../components/screens/DishDetails";
 import Basket from "../components/screens/Basket";
+import BalanceHeader from "../layout/BalanceHeader";
 
 import {
   Foundation,
@@ -14,13 +15,33 @@ import {
 import Home from "../components/screens/Home";
 import Diet from "../components/screens/Diet";
 import Profile from "../components/screens/Profile";
+import {
+  withAuthenticator,
+  Authenticator,
+  useTheme,
+  ThemeProvider,
+} from "@aws-amplify/ui-react-native";
+
+import getTheme from "../theme";
 const Stack = createNativeStackNavigator();
 
 const RootNavigator = () => {
+  const {
+    tokens: { colors },
+  } = useTheme();
+
+  const myTheme = getTheme();
+
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="HomeTabs" component={HomeTabs} />
-    </Stack.Navigator>
+    <ThemeProvider theme={myTheme}>
+      <Authenticator.Provider>
+        <Authenticator Header={BalanceHeader}>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="HomeTabs" component={HomeTabs} />
+          </Stack.Navigator>
+        </Authenticator>
+      </Authenticator.Provider>
+    </ThemeProvider>
   );
 };
 

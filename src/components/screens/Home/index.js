@@ -18,7 +18,7 @@ export default function Home() {
         )}
         ListFooterComponent={() => (
           <View>
-            <Text style={styles.subtitle}>Recommended for you </Text>
+            <Text style={styles.subtitle}>Meals to suit your goals: </Text>
             <FlatList
               data={restaurants}
               renderItem={({ item }) => (
@@ -51,5 +51,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     padding: 10,
+    marginTop: 15,
   },
 });
