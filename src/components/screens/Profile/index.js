@@ -9,6 +9,7 @@ import React from "react";
 import profiles from "../../../../assets/data/profiles.json";
 import { Ionicons, Fontisto } from "@expo/vector-icons";
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
+import { LinearGradient } from "expo-linear-gradient";
 
 const Profile = () => {
   const { signOut } = useAuthenticator();
@@ -29,7 +30,6 @@ const Profile = () => {
 
   const data = [
     { key: "Settings" },
-    { key: "About" },
     { key: "Privacy" },
     { key: "Help" },
     { key: "Promotions" },
@@ -38,34 +38,41 @@ const Profile = () => {
   ];
 
   return (
-    <FlatList
-      data={data}
-      ListHeaderComponent={() => (
-        <View style={styles.ListHeaderComponent}>
-          <View style={styles.headerRow}>
-            <View style={styles.profileInfo}>
-              <Text style={styles.title}>{profile.fullname}</Text>
-              <Text style={styles.subtitle}>@{profile.username}</Text>
+    <LinearGradient
+      colors={["#3C4142", "#f2f2f2"]}
+      style={styles.container}
+      start={[0, 0]}
+      end={[0, 0.3]}
+    >
+      <FlatList
+        data={data}
+        ListHeaderComponent={() => (
+          <View style={styles.ListHeaderComponent}>
+            <View style={styles.headerRow}>
+              <View style={styles.profileInfo}>
+                <Text style={styles.hey}>Hey,</Text>
+                <Text style={styles.title}>{profile.fullname}</Text>
+              </View>
+            </View>
+            <View style={styles.iconRow}>
+              <View style={styles.iconContainer}>
+                <Ionicons name="wallet" size={32} color="#333" />
+              </View>
+              <View style={styles.iconContainer}>
+                <Ionicons name="heart" size={32} color="#333" />
+              </View>
+              <View style={styles.iconContainer}>
+                <Fontisto name="history" size={32} color="#333" />
+              </View>
             </View>
           </View>
-          <View style={styles.iconRow}>
-            <View style={styles.iconContainer}>
-              <Ionicons name="wallet" size={32} color="#333" />
-            </View>
-            <View style={styles.iconContainer}>
-              <Ionicons name="heart" size={32} color="#333" />
-            </View>
-            <View style={styles.iconContainer}>
-              <Fontisto name="history" size={32} color="#333" />
-            </View>
-          </View>
-        </View>
-      )}
-      renderItem={SignoutButton}
-      ListFooterComponent={() => <View style={styles.footer} />}
-      keyExtractor={(item) => item.key}
-      contentContainerStyle={styles.contentContainer}
-    />
+        )}
+        renderItem={SignoutButton}
+        ListFooterComponent={() => <View style={styles.footer} />}
+        keyExtractor={(item) => item.key}
+        contentContainerStyle={styles.contentContainer}
+      />
+    </LinearGradient>
   );
 };
 
@@ -84,14 +91,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 20,
+    borderBottomColor: "lightgrey",
+    borderBottomWidth: 1,
+    paddingBottom: 20,
+    marginBottom: 20,
   },
   profileInfo: {
     flex: 1,
   },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#333",
+    fontSize: 40,
+    fontWeight: "700",
+    color: "",
+    marginLeft: 20,
   },
   subtitle: {
     fontSize: 16,
@@ -115,16 +127,16 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   signout: {
-    marginTop: 50,
-    backgroundColor: "red",
+    marginTop: 40,
+    backgroundColor: "orange",
     marginVertical: 10,
     paddingVertical: 12,
-    paddingHorizontal: 20,
+    marginHorizontal: 60,
     borderRadius: 25,
     alignItems: "center",
   },
   signoutText: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "500",
     color: "#fff",
   },
@@ -146,5 +158,10 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     borderBottomWidth: 1,
     marginBottom: 10,
+  },
+  hey: {
+    fontSize: 60,
+    fontWeight: "700",
+    color: "white",
   },
 });

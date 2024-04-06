@@ -7,6 +7,8 @@ import BasketHeader from "../../BasketHeader";
 import { generateClient } from "aws-amplify/api";
 import { listRestaurants } from "../../../graphql/queries";
 import { useNavigation } from "@react-navigation/native";
+import { LinearGradient } from "expo-linear-gradient";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function Browse() {
   const [restaurants, setRestaurants] = useState([]);
@@ -27,39 +29,63 @@ export default function Browse() {
   }, []);
 
   return (
-    <View style={styles.page}>
+    <LinearGradient
+      colors={["#3C4142", "#f2f2f2"]}
+      style={styles.container}
+      start={[0, 0]}
+      end={[0, 0.2]}
+    >
       <View style={styles.row}>
-        <Text style={styles.currentLocation}>Current Location</Text>
+        <View style={styles.addressBox}>
+          <Text style={styles.address}>cra.13 A 28-21</Text>
+          <FontAwesome5 name="map-marker-alt" size={17} color="white" />
+        </View>
         <BasketHeader />
       </View>
-      <Searchbar
-        style={styles.input}
-        placeholder="Search"
-        onChangeText={setSearchQuery}
-        value={searchQuery}
-      />
-      <FlatList
-        data={restaurants}
-        renderItem={({ item }) => <RestaurantItem restaurant={item} />}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+      <View style={styles.page}>
+        <Searchbar
+          style={styles.input}
+          placeholder="Search"
+          onChangeText={setSearchQuery}
+          value={searchQuery}
+        />
+        <FlatList
+          data={restaurants}
+          renderItem={({ item }) => <RestaurantItem restaurant={item} />}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   page: {
     padding: 25,
-    paddingTop: 80,
     paddingBottom: 150,
   },
   input: {
-    margin: 12,
     marginVertical: 20,
   },
   row: {
+    marginRight: 30,
+    marginTop: 90,
     flexDirection: "row",
     alignItems: "center",
   },
-  currentLocation: {},
+  address: {
+    color: "black",
+    fontSize: 16,
+    fontWeight: "400",
+    marginLeft: 15,
+  },
+  addressBox: {
+    padding: 5,
+    paddingHorizontal: 10,
+    backgroundColor: "orange",
+    flexDirection: "row",
+    gap: 10,
+    borderBottomEndRadius: 20,
+    borderTopEndRadius: 20,
+  },
 });

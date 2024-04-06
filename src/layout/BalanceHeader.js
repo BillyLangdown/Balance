@@ -7,8 +7,10 @@ const BalanceHeader = () => {
   } = useTheme();
   return (
     <View style={styles.page}>
-      <Text style={styles.title}>Balance</Text>
-      <Text style={styles.subtitle}>Nutrition made easy</Text>
+      <Text style={styles.title}>balance</Text>
+      <View style={styles.subtitleBox}>
+        <Text style={styles.subtitle}>nutrition made easy</Text>
+      </View>
     </View>
   );
 };
@@ -16,18 +18,25 @@ export default BalanceHeader;
 
 const styles = StyleSheet.create({
   page: {
+    marginBottom: 20,
     justifyContent: "center",
-    marginLeft: 20,
   },
   title: {
+    marginLeft: 20,
     fontSize: 90,
     fontWeight: "700",
-    color: "#FFA500",
+    color: "#FFFFFF",
   },
   subtitle: {
-    color: "#FFA500",
-    marginRight: 80,
-    fontWeight: "500",
-    fontSize: 20,
+    color: "black",
+    padding: 4,
+  },
+  subtitleBox: {
+    backgroundColor: "orange",
+    paddingLeft: 40,
+    paddingRight: 5,
+    marginRight: 160,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
   },
 });

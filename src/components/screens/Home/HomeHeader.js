@@ -1,50 +1,62 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import BasketHeader from "../../BasketHeader";
 
 const HomeHeader = () => {
   return (
-    <View style={styles.row}>
-      <View style={styles.header}>
+    <LinearGradient
+      colors={["#3C4142", "#f2f2f2"]}
+      style={styles.container}
+      start={[0, 0]}
+      end={[0, 1]}
+    >
+      <View style={styles.content}>
         <Text style={styles.title}> balance </Text>
-        <Text style={styles.subtitle}>nutrition made easy</Text>
+        <View style={styles.subtitleBox}>
+          <Text style={styles.subtitle}>nutrition made easy</Text>
+        </View>
       </View>
       <View style={styles.basketHeaderContainer}>
         <BasketHeader />
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
-  header: {
-    height: 100,
-    marginTop: 60,
-    marginBottom: 10,
-    alignItems: "center",
-    marginRight: 55,
-  },
-  image: {
-    width: "100%",
-    height: 150,
-
-    aspectRatio: 5 / 3,
-  },
-  row: {
+  container: {
+    flex: 1,
     flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 20,
+    marginBottom: 20,
+    height: 200,
   },
-
+  content: {
+    paddingTop: 60,
+    marginEnd: "auto",
+    alignItems: "center",
+    marginBottom: 10,
+  },
   title: {
     fontSize: 64,
     fontWeight: "bold",
+    color: "#FAF9F6",
   },
   subtitle: {
-    color: "orange",
+    color: "black",
+    padding: 4,
+  },
+  subtitleBox: {
+    backgroundColor: "orange",
+    paddingLeft: 40,
+    paddingRight: 15,
     marginRight: 100,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
   },
   basketHeaderContainer: {
-    paddingTop: 50,
+    paddingTop: 100,
+    marginRight: 20,
   },
 });
 

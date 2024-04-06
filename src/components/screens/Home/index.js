@@ -18,7 +18,9 @@ export default function Home() {
         )}
         ListFooterComponent={() => (
           <View>
-            <Text style={styles.subtitle}>Meals to suit your goals: </Text>
+            <Text style={styles.subtitle}>
+              Restaurants that suit your goals
+            </Text>
             <FlatList
               data={restaurants}
               renderItem={({ item }) => (
