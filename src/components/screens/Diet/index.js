@@ -1,20 +1,80 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, StyleSheet, FlatList, Dimensions } from "react-native";
 import ProgressCircle from "react-native-progress-circle";
 import BasketHeader from "../../BasketHeader";
 import DietForm from "./DietForm";
 import { LinearGradient } from "expo-linear-gradient";
+import DietContext from "../../../contexts/DietContext";
+import FitnessGoalContext from "../../../contexts/FitnessGoalContext";
+
+const screenWidth = Dimensions.get("window").width;
 
 const Diet = () => {
-  const calorieGoal = 727;
-  const fatCaloriesEatenToday = 660 * 0.2;
-  const carbsCaloriesEatenToday = 660 * 0.65;
-  const proteinCaloriesEatenToday = 660 * 0.15;
+  const [mealEaten] = useState({
+    calories: 800,
+    carbs: 400,
+    protein: 240,
+    fat: 160,
+  });
+  const { diet, setDiet } = useContext(DietContext);
+  const { fitnessGoal, setFitnessGoal } = useContext(FitnessGoalContext);
+  const fatGramsEatenToday = mealEaten.fat / 9;
+  const carbsGramsEatenToday = mealEaten.carbs / 4;
+  const proteinGramsEatenToday = mealEaten.protein / 4;
 
-  // Convert calories to grams
-  const fatGramsEatenToday = fatCaloriesEatenToday / 9;
-  const carbsGramsEatenToday = carbsCaloriesEatenToday / 4;
-  const proteinGramsEatenToday = proteinCaloriesEatenToday / 4;
+  const progressData = [
+    {
+      title: "Calories",
+      grams: 660,
+      goal: diet.totalCalories,
+      color: "#3399FF",
+    },
+    { title: "Fat", grams: fatGramsEatenToday, goal: 25, color: "#FF6347" },
+    {
+      title: "Carbs",
+      grams: carbsGramsEatenToday,
+      goal: 100,
+      color: "#32CD32",
+    },
+    {
+      title: "Protein",
+      grams: proteinGramsEatenToday,
+      goal: 75,
+      color: "#6495ED",
+    },
+  ];
+
+  const CurrentDietInfo = () => {
+    return (
+      <View style={styles.DietInfoContainer}>
+        <Text style={styles.infoTextMealPlan}> Meal Plan: {fitnessGoal}</Text>
+        <Text style={styles.infoText}>
+          Calories: {diet.totalCalories} | Fat: {diet.fatGrams.toFixed(0)}g |
+          Protein:
+          {diet.proteinGrams.toFixed(0)}g | Carbs:
+          {diet.carbGrams.toFixed(0)}g
+        </Text>
+      </View>
+    );
+  };
+
+  const renderItem = ({ item }) => (
+    <View style={styles.macroItem}>
+      <Text style={styles.macroTitle}>{item.title}</Text>
+      <View style={styles.progressBackground}>
+        <ProgressCircle
+          percent={(item.grams / item.goal) * 100}
+          radius={screenWidth / 2.5}
+          borderWidth={60}
+          color={item.color}
+          shadowColor="#999"
+          bgColor="#fff"
+        >
+          <Text>{`${item.grams.toFixed(1)}g / ${item.goal}g`}</Text>
+        </ProgressCircle>
+      </View>
+    </View>
+  );
 
   return (
     <LinearGradient
@@ -26,79 +86,31 @@ const Diet = () => {
       <View style={styles.page}>
         <View style={styles.row}>
           <View style={styles.headerContainer}>
-            <Text style={styles.header}>Diet Tracker</Text>
-            <Text style={styles.subtitle}>Tracking: Lunch</Text>
+            <View style={styles.orangeBackground}>
+              <Text style={styles.subtitle}>Tracking: Lunch</Text>
+            </View>
           </View>
           <View style={styles.basket}>
             <BasketHeader />
           </View>
         </View>
 
-        <View style={styles.calorieContainer}>
-          <Text style={styles.calorieTitle}>Calories</Text>
-          <View style={styles.progressBackground}>
-            <ProgressCircle
-              percent={(660 / calorieGoal) * 100}
-              radius={80}
-              borderWidth={22}
-              color="#3399FF"
-              shadowColor="#999"
-              bgColor="#fff"
-            >
-              <Text style={styles.progressText}>{"660 / 827"}</Text>
-            </ProgressCircle>
+        {!diet ? (
+          <Text style={styles.noDietSet}> No diet set</Text>
+        ) : (
+          <View style={styles.flatListContainer}>
+            <CurrentDietInfo />
+            <FlatList
+              data={progressData}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.flatListContainer}
+            />
           </View>
-        </View>
+        )}
 
-        <View style={styles.macroContainer}>
-          <View style={styles.macroItem}>
-            <Text style={styles.macroTitle}>Fat</Text>
-            <View style={styles.progressBackground}>
-              <ProgressCircle
-                percent={(fatGramsEatenToday / 25) * 100}
-                radius={50}
-                borderWidth={18}
-                color="#FF6347"
-                shadowColor="#999"
-                bgColor="#fff"
-              >
-                <Text>{`${fatGramsEatenToday.toFixed(1)}g / 25g`}</Text>
-              </ProgressCircle>
-            </View>
-          </View>
-
-          <View style={styles.macroItem}>
-            <Text style={styles.macroTitle}>Carbs</Text>
-            <View style={styles.progressBackground}>
-              <ProgressCircle
-                percent={(carbsGramsEatenToday / 100) * 100}
-                radius={50}
-                borderWidth={18}
-                color="#32CD32"
-                shadowColor="#999"
-                bgColor="#fff"
-              >
-                <Text>{`${carbsGramsEatenToday.toFixed(1)}g / 100g`}</Text>
-              </ProgressCircle>
-            </View>
-          </View>
-
-          <View style={styles.macroItem}>
-            <Text style={styles.macroTitle}>Protein</Text>
-            <View style={styles.progressBackground}>
-              <ProgressCircle
-                percent={(proteinGramsEatenToday / 75) * 100} // Assuming 75g as protein goal
-                radius={50}
-                borderWidth={18}
-                color="#6495ED"
-                shadowColor="#999"
-                bgColor="#fff"
-              >
-                <Text>{`${proteinGramsEatenToday.toFixed(1)}g / 75g`}</Text>
-              </ProgressCircle>
-            </View>
-          </View>
-        </View>
         <DietForm />
       </View>
     </LinearGradient>
@@ -106,46 +118,30 @@ const Diet = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   page: {
-    alignItems: "center",
-    padding: 10,
     paddingTop: 65,
   },
   headerContainer: {
-    marginLeft: "auto",
+    marginLeft: 10,
     margin: 10,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   header: {
     fontSize: 38,
     fontWeight: "bold",
   },
-  calorieContainer: {
+  flatListContainer: {
+    paddingHorizontal: 15,
+    paddingTop: 20,
+    paddingBottom: 10,
     justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 20,
-    padding: 15,
-    paddingBottom: -15,
-    paddingHorizontal: 80,
-    width: "100%",
-  },
-  calorieTitle: {
-    color: "#3C4142",
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  macroContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    padding: 15,
-    paddingVertical: 40,
-    marginBottom: 40,
   },
   macroItem: {
     alignItems: "center",
+    marginHorizontal: 10,
   },
   macroTitle: {
     color: "#3C4142",
@@ -159,11 +155,47 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-around",
-    gap: 45,
   },
   basket: {
+    marginRight: 40,
+    marginTop: 10,
+  },
+  progressBackground: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  orangeBackground: {
+    backgroundColor: "orange",
+    paddingLeft: 40,
+    paddingRight: 15,
+    marginRight: 210,
+    paddingVertical: 5,
     marginTop: 20,
-    marginLeft: 30,
+    borderTopRightRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  DietInfoContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    paddingVertical: 20,
+    paddingHorizontal: 5,
+  },
+  infoText: {
+    fontSize: 15,
+    fontWeight: "500",
+  },
+  infoTextMealPlan: {
+    fontSize: 20,
+    fontWeight: "600",
+    paddingBottom: 10,
+  },
+  noDietSet: {
+    justifyContent: "center",
+    alignSelf: "center",
+    fontSize: 40,
+    fontWeight: "600",
+    marginVertical: 220,
   },
 });
 

@@ -53,6 +53,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     padding: 10,
-    marginTop: 15,
+    marginTop: 5,
   },
 });

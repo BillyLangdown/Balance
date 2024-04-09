@@ -7,22 +7,40 @@ import { Amplify } from "aws-amplify";
 import amplifyconfig from "./src/amplifyconfiguration.json";
 import React, { useState } from "react";
 import basketContext from "./src/contexts/basketContext";
+import DietContext from "./src/contexts/DietContext";
+import FitnessGoalContext from "./src/contexts/FitnessGoalContext";
 Amplify.configure(amplifyconfig);
 
 export default function App() {
   const [basket, setBasket] = useState([]);
   const resetBasket = () => setBasket([]);
+  const [diet, setDiet] = useState();
+  const [fitnessGoal, setFitnessGoal] = useState("");
 
   const basketContextValue = {
     basket,
     setBasket,
   };
+
+  const dietContextValue = {
+    diet,
+    setDiet,
+  };
+
+  const FitnessGoalValue = {
+    fitnessGoal,
+    setFitnessGoal,
+  };
   return (
-    <basketContext.Provider value={basketContextValue}>
-      <NavigationContainer>
-        <RootNavigator />
-        <StatusBar style="auto" />
-      </NavigationContainer>
-    </basketContext.Provider>
+    <FitnessGoalContext.Provider value={FitnessGoalValue}>
+      <DietContext.Provider value={dietContextValue}>
+        <basketContext.Provider value={basketContextValue}>
+          <NavigationContainer>
+            <RootNavigator />
+            <StatusBar style="auto" />
+          </NavigationContainer>
+        </basketContext.Provider>
+      </DietContext.Provider>
+    </FitnessGoalContext.Provider>
   );
 }

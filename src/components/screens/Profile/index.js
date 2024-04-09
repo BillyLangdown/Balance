@@ -102,12 +102,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: "700",
-    color: "",
     marginLeft: 20,
   },
   subtitle: {
     fontSize: 16,
-    color: "#666",
   },
   image: {
     height: 100,
@@ -138,7 +136,7 @@ const styles = StyleSheet.create({
   signoutText: {
     fontSize: 15,
     fontWeight: "500",
-    color: "#fff",
+    color: "white",
   },
   iconContainer: {
     backgroundColor: "lightgrey",
