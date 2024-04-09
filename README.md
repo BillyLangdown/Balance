@@ -1,6 +1,6 @@
 # Balance - Food Delivery App
 
-## In development 
+## **In development** 
 
 Balance is a mobile application designed to provide users with a seamless food delivery experience while helping them achieve their fitness goals. With its unique feature of personalized nutritional guidance, users can take an in-app test to determine their calorie and macronutrient goals. Based on these goals, Balance allows users to search for local restaurants offering meals that align with their dietary requirements, ensuring they maintain a balanced and healthy diet.
 
@@ -34,18 +34,9 @@ To get started with Balance, follow these steps:
 2. Navigate to the project directory.
 3. Install dependencies using `npm install`.
 4. Configure AWS Amplify for authentication and data storage.
-5. Run the application using `npm start` or `react-native run-android` / `react-native run-ios`.
+5. Run the application using `npx expo run:ios`
 
 ## Contributing
 
 We welcome contributions from the community to enhance Balance further. If you'd like to contribute, please fork the repository and submit a pull request with your changes.
 
-## License
-
-Balance is licensed under the [MIT License](LICENSE). Feel free to use, modify, and distribute the application as per the terms of the license.
-
-## Support
-
-For any queries or support, please contact us at [support@balanceapp.com](mailto:support@balanceapp.com).
-
-Thank you for choosing Balance for your food delivery and fitness needs! We hope you enjoy using the app.
