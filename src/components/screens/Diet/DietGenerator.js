@@ -78,9 +78,12 @@ export default function DietGenerator(userData) {
 
     // Calculate total calories and macronutrient grams for one meal (lunch)
     const totalCalories = (tdee * 0.3).toFixed(0); // Assuming lunch contributes 30% of daily calories
-    const proteinGrams = ((proteinPercentage / 100) * totalCalories) / 4;
-    const carbGrams = ((carbPercentage / 100) * totalCalories) / 4;
-    const fatGrams = ((fatPercentage / 100) * totalCalories) / 9;
+    const proteinGrams = (
+      ((proteinPercentage / 100) * totalCalories) /
+      4
+    ).toFixed(1);
+    const carbGrams = (((carbPercentage / 100) * totalCalories) / 4).toFixed(1);
+    const fatGrams = (((fatPercentage / 100) * totalCalories) / 9).toFixed(1);
 
     // Resolve with meal details
     resolve({

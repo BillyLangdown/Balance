@@ -29,17 +29,22 @@ const Diet = () => {
       goal: diet.totalCalories,
       color: "#3399FF",
     },
-    { title: "Fat", grams: fatGramsEatenToday, goal: 25, color: "#FF6347" },
+    {
+      title: "Fat",
+      grams: fatGramsEatenToday,
+      goal: diet.fatGrams,
+      color: "#FF6347",
+    },
     {
       title: "Carbs",
       grams: carbsGramsEatenToday,
-      goal: 100,
+      goal: diet.carbGrams,
       color: "#32CD32",
     },
     {
       title: "Protein",
       grams: proteinGramsEatenToday,
-      goal: 75,
+      goal: diet.proteinGrams,
       color: "#6495ED",
     },
   ];
@@ -49,10 +54,8 @@ const Diet = () => {
       <View style={styles.DietInfoContainer}>
         <Text style={styles.infoTextMealPlan}> Meal Plan: {fitnessGoal}</Text>
         <Text style={styles.infoText}>
-          Calories: {diet.totalCalories} | Fat: {diet.fatGrams.toFixed(0)}g |
-          Protein:
-          {diet.proteinGrams.toFixed(0)}g | Carbs:
-          {diet.carbGrams.toFixed(0)}g
+          Calories: {diet.totalCalories} | Fat: {diet.fatGrams}g | Protein:
+          {diet.proteinGrams}g | Carbs:{diet.carbGrams}g
         </Text>
       </View>
     );
@@ -60,19 +63,15 @@ const Diet = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.macroItem}>
-      <Text style={styles.macroTitle}>{item.title}</Text>
-      <View style={styles.progressBackground}>
-        <ProgressCircle
-          percent={(item.grams / item.goal) * 100}
-          radius={screenWidth / 2.5}
-          borderWidth={60}
-          color={item.color}
-          shadowColor="#999"
-          bgColor="#fff"
-        >
-          <Text>{`${item.grams.toFixed(1)}g / ${item.goal}g`}</Text>
-        </ProgressCircle>
-      </View>
+      <ProgressCircle
+        percent={(item.grams / item.goal) * 100}
+        radius={screenWidth / 2.5}
+        borderWidth={60}
+        color={item.color}
+        bgColor="white"
+      >
+        <Text>{`${item.grams.toFixed(1)}g / ${item.goal}g`}</Text>
+      </ProgressCircle>
     </View>
   );
 
@@ -95,7 +94,7 @@ const Diet = () => {
           </View>
         </View>
 
-        {!diet ? (
+        {diet.totalCalories === 0 ? (
           <Text style={styles.noDietSet}> No diet set</Text>
         ) : (
           <View style={styles.flatListContainer}>
