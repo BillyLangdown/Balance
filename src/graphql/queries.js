@@ -30,6 +30,10 @@ export const listDishes = /* GraphQL */ `
         description
         price
         restaurantID
+        totalCalories
+        protein
+        carbs
+        fat
         createdAt
         updatedAt
         __typename

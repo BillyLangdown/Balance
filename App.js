@@ -14,7 +14,15 @@ Amplify.configure(amplifyconfig);
 export default function App() {
   const [basket, setBasket] = useState([]);
   const resetBasket = () => setBasket([]);
-  const [diet, setDiet] = useState();
+  const [diet, setDiet] = useState({
+    totalCalories: 0,
+    proteinGrams: 0,
+    carbGrams: 0,
+    fatGrams: 0,
+    proteinPercentage: 0,
+    carbPercentage: 0,
+    fatPercentage: 0,
+  });
   const [fitnessGoal, setFitnessGoal] = useState("");
 
   const basketContextValue = {
