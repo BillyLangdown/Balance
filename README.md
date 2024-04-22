@@ -1,4 +1,12 @@
 # Balance - Food Delivery App
+<img width="214" alt="Screenshot 2024-04-22 at 09 55 55" src="https://github.com/BillyLangdown/Balance/assets/139721521/e088676d-391c-42fc-8c74-4445488b4925">
+<img width="270" alt="Screenshot 2024-04-22 at 09 54 25" src="https://github.com/BillyLangdown/Balance/assets/139721521/8c8f0661-7e00-468a-a4ab-41af544bf2e2">
+<img width="210" alt="Screenshot 2024-04-22 at 09 54 44" src="https://github.com/BillyLangdown/Balance/assets/139721521/94a9e52f-6cd3-4bfa-b9d5-d04e5540c197">
+<img width="215" alt="Screenshot 2024-04-22 at 09 54 58" src="https://github.com/BillyLangdown/Balance/assets/139721521/1e1acfff-1b68-4947-a6e1-4e927d54a3ea">
+<img width="262" alt="Screenshot 2024-04-22 at 09 55 05" src="https://github.com/BillyLangdown/Balance/assets/139721521/27dc2896-8993-452b-9973-2eada97379e6">
+
+
+
 
 ## **In development** 
 
