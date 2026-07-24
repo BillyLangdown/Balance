@@ -1,35 +1,54 @@
 import { View, Text, StyleSheet, Image } from "react-native";
+import { Card } from "../ui";
+import { colors, radius, spacing } from "../../theme";
 
 const OrderListItem = ({ order }) => {
   return (
-    <View style={styles.row}>
-      <Image source={{ uri: order.Restaurant.image }} style={styles.image} />
-      <View>
-        <Text style={styles.orderTitle}>{order.Restaurant.name}</Text>
-        <Text style={styles.orderBody}>3 items $32.40</Text>
-        <Text>2 days ago &#8226; {order.status} </Text>
+    <Card style={styles.card}>
+      <View style={styles.row}>
+        <Image source={{ uri: order.Restaurant.image }} style={styles.image} />
+        <View style={styles.textBlock}>
+          <Text style={styles.orderTitle}>{order.Restaurant.name}</Text>
+          <Text style={styles.orderBody}>3 items &#8226; $32.40</Text>
+          <Text style={styles.orderMeta}>2 days ago &#8226; {order.status}</Text>
+        </View>
       </View>
-    </View>
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
+  card: {
+    marginBottom: spacing.md,
+    padding: spacing.md,
+  },
   image: {
-    width: 75,
-    height: 75,
-    marginRight: 10,
+    width: 64,
+    height: 64,
+    borderRadius: radius.md,
+    marginRight: spacing.md,
   },
   row: {
     flexDirection: "row",
-    margin: 10,
     alignItems: "center",
   },
+  textBlock: {
+    flex: 1,
+  },
   orderTitle: {
-    fontWeight: "600",
-    fontSize: 16,
+    fontWeight: "700",
+    fontSize: 15,
+    color: colors.text,
   },
   orderBody: {
-    marginVertical: 5,
+    marginTop: 4,
+    color: colors.textSecondary,
+    fontSize: 13,
+  },
+  orderMeta: {
+    marginTop: 4,
+    color: colors.textMuted,
+    fontSize: 12,
   },
 });
 

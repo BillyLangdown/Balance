@@ -1,5 +1,4 @@
 import { View, Text, Image } from "react-native";
-import restaurants from "../../../../assets/data/restaurants.json";
 import styles from "./styles";
 
 export default function RestaurantHeader({ restaurant }) {

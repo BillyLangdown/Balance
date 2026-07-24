@@ -1,17 +1,16 @@
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { useState, useContext, useEffect } from "react";
+import { useContext } from "react";
 import BasketDishItem from "../../BasketDishItem";
 import basketContext from "../../../contexts/basketContext";
 import EmptyBasket from "../../EmptyBasket";
-import { generateClient } from "aws-amplify/api";
-import { getRestaurant } from "../../../graphql/queries";
+import { Button } from "../../ui";
+import { colors, spacing, typography } from "../../../theme";
 
 export default function Basket() {
-  const [quantity, setQuantity] = useState(1);
-  const { basket, setBasket } = useContext(basketContext);
+  const { basket } = useContext(basketContext);
 
   return basket.length === 0 ? (
-    <View>
+    <View style={styles.container}>
       <EmptyBasket />
     </View>
   ) : (
@@ -20,75 +19,30 @@ export default function Basket() {
         ListHeaderComponent={<Text style={styles.orders}>Current order</Text>}
         data={basket}
         renderItem={({ item }) => <BasketDishItem basketDish={item} />}
+        showsVerticalScrollIndicator={false}
       />
-      <View style={styles.separator} />
-      <View style={styles.button}>
-        <Text style={styles.buttonText}> Create order</Text>
-      </View>
+      <Button label="Create order" style={styles.button} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.bg,
+  },
   page: {
     flex: 1,
     width: "100%",
-    paddingVertical: 40,
-    padding: 10,
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: "600",
-    marginVertical: 10,
-  },
-  separator: {
-    height: 1,
-    backgroundColor: "lightgrey",
-    marginVertical: 10,
-  },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 30,
-  },
-  quantity: {
-    fontSize: 25,
-    marginHorizontal: 20,
+    backgroundColor: colors.bg,
+    paddingVertical: spacing.xl,
+    paddingHorizontal: spacing.lg,
   },
   button: {
-    backgroundColor: "black",
-    marginTop: "auto",
-    padding: 20,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "500",
-    fontSize: 20,
-  },
-  subtitle: {
-    fontSize: 19,
-    fontWeight: "bold",
-    marginTop: 20,
-  },
-  price: {
-    marginLeft: "auto",
-  },
-  quantityContainer: {
-    backgroundColor: "lightgrey",
-    borderRadius: 2,
-    paddingHorizontal: 5,
-    marginRight: 10,
-  },
-
-  dishName: {
-    fontSize: 15,
-    fontWeight: "600",
+    marginTop: spacing.md,
   },
   orders: {
-    padding: 10,
-    fontSize: 25,
-    fontWeight: "600",
+    ...typography.h2,
+    paddingBottom: spacing.md,
   },
 });

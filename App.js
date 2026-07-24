@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import RootNavigator from "./src/navigation";
+import { colors } from "./src/theme";
 import { NavigationContainer } from "@react-navigation/native";
 import { withAuthenticator, Authenticator } from "@aws-amplify/ui-react-native";
 import { Amplify } from "aws-amplify";
@@ -44,11 +45,20 @@ export default function App() {
       <DietContext.Provider value={dietContextValue}>
         <basketContext.Provider value={basketContextValue}>
           <NavigationContainer>
-            <RootNavigator />
-            <StatusBar style="auto" />
+            <View style={styles.app}>
+              <RootNavigator />
+            </View>
+            <StatusBar style="light" />
           </NavigationContainer>
         </basketContext.Provider>
       </DietContext.Provider>
     </FitnessGoalContext.Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  app: {
+    flex: 1,
+    backgroundColor: colors.bg,
+  },
+});

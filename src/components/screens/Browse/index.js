@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View, Text, Pressable } from "react-native";
+import { FlatList, StyleSheet, View, Text } from "react-native";
 import RestaurantItem from "../../RestaurantItem";
 
 import { useState, useEffect } from "react";
@@ -6,14 +6,12 @@ import { Searchbar } from "react-native-paper";
 import BasketHeader from "../../BasketHeader";
 import { generateClient } from "aws-amplify/api";
 import { listRestaurants } from "../../../graphql/queries";
-import { useNavigation } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { colors, radius, spacing, typography } from "../../../theme";
 
 export default function Browse() {
   const [restaurants, setRestaurants] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const navigator = useNavigation();
 
   const client = generateClient();
 
@@ -29,23 +27,22 @@ export default function Browse() {
   }, []);
 
   return (
-    <LinearGradient
-      colors={["#3C4142", "#f2f2f2"]}
-      style={styles.container}
-      start={[0, 0]}
-      end={[0, 0.2]}
-    >
-      <View style={styles.row}>
+    <View style={styles.container}>
+      <View style={styles.topBar}>
         <View style={styles.addressBox}>
+          <FontAwesome5 name="map-marker-alt" size={14} color={colors.accent} />
           <Text style={styles.address}>cra.13 A 28-21</Text>
-          <FontAwesome5 name="map-marker-alt" size={17} color="white" />
         </View>
         <BasketHeader />
       </View>
       <View style={styles.page}>
+        <Text style={typography.h1}>Browse</Text>
         <Searchbar
           style={styles.input}
-          placeholder="Search"
+          inputStyle={styles.inputText}
+          placeholderTextColor={colors.textMuted}
+          iconColor={colors.textMuted}
+          placeholder="Search restaurants"
           onChangeText={setSearchQuery}
           value={searchQuery}
         />
@@ -53,39 +50,60 @@ export default function Browse() {
           data={restaurants}
           renderItem={({ item }) => <RestaurantItem restaurant={item} />}
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.list}
         />
       </View>
-    </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  page: {
-    padding: 25,
-    paddingBottom: 150,
+  container: {
+    flex: 1,
+    backgroundColor: colors.bg,
   },
-  input: {
-    marginVertical: 20,
-  },
-  row: {
-    marginRight: 30,
-    marginTop: 90,
+  topBar: {
+    paddingTop: 64,
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.md,
     flexDirection: "row",
     alignItems: "center",
-  },
-  address: {
-    color: "black",
-    fontSize: 16,
-    fontWeight: "400",
-    marginLeft: 15,
+    justifyContent: "space-between",
   },
   addressBox: {
-    padding: 5,
-    paddingHorizontal: 10,
-    backgroundColor: "orange",
     flexDirection: "row",
-    gap: 10,
-    borderBottomEndRadius: 20,
-    borderTopEndRadius: 20,
+    alignItems: "center",
+    gap: spacing.sm,
+    backgroundColor: colors.surfaceHigh,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.md,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  address: {
+    color: colors.text,
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  page: {
+    flex: 1,
+    paddingHorizontal: spacing.lg,
+  },
+  input: {
+    marginTop: spacing.lg,
+    marginBottom: spacing.sm,
+    backgroundColor: colors.surfaceHigh,
+    borderRadius: radius.md,
+    elevation: 0,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  inputText: {
+    color: colors.text,
+  },
+  list: {
+    paddingTop: spacing.md,
+    paddingBottom: 150,
   },
 });

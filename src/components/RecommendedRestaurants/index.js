@@ -1,23 +1,24 @@
+import React from "react";
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { colors, radius, spacing, shadow } from "../../theme";
 
 const RecommendedRestaurants = ({ restaurant }) => {
   return (
-    <Pressable style={styles.offerContainer}>
-      <Image
-        source={{
-          uri: restaurant.image,
-        }}
-        style={styles.image}
-      />
-      <View style={styles.row}>
-        <View>
-          <Text style={styles.title}> {restaurant.name} </Text>
-          <Text style={styles.subtitle}>
-            ${restaurant.deliveryFee}0 ​​&#8226; {restaurant.minDeliveryTime}-
-            {restaurant.maxDeliveryTime} minutes
-          </Text>
-        </View>
-      </View>
+    <Pressable style={({ pressed }) => [styles.container, pressed && styles.pressed]}>
+      <Image source={{ uri: restaurant.image }} style={styles.image} />
+      <LinearGradient
+        colors={["transparent", "rgba(0,0,0,0.85)"]}
+        style={styles.overlay}
+      >
+        <Text style={styles.title} numberOfLines={1}>
+          {restaurant.name}
+        </Text>
+        <Text style={styles.subtitle} numberOfLines={1}>
+          ${restaurant.deliveryFee}0 &#8226; {restaurant.minDeliveryTime}-
+          {restaurant.maxDeliveryTime} min
+        </Text>
+      </LinearGradient>
     </Pressable>
   );
 };
@@ -25,29 +26,35 @@ const RecommendedRestaurants = ({ restaurant }) => {
 export default RecommendedRestaurants;
 
 const styles = StyleSheet.create({
-  offerContainer: {
-    width: 200,
-    marginHorizontal: 10,
+  container: {
+    width: 220,
+    height: 150,
+    borderRadius: radius.lg,
+    overflow: "hidden",
+    backgroundColor: colors.surface,
+    ...shadow.card,
+  },
+  pressed: {
+    opacity: 0.85,
   },
   image: {
     width: "100%",
-    height: 150,
-    borderRadius: 10,
+    height: "100%",
+    position: "absolute",
   },
-  detailsContainer: {
-    padding: 10,
+  overlay: {
+    flex: 1,
+    justifyContent: "flex-end",
+    padding: spacing.md,
   },
   title: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "700",
+    color: colors.white,
   },
-  discount: {
-    fontSize: 14,
-    color: "green",
-    marginTop: 5,
-  },
-  description: {
-    fontSize: 14,
-    marginTop: 5,
+  subtitle: {
+    fontSize: 12,
+    color: "rgba(255,255,255,0.75)",
+    marginTop: 2,
   },
 });

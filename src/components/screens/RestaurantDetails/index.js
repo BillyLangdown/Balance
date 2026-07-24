@@ -6,7 +6,9 @@ import Header from "./Header";
 import styles from "./styles";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { generateClient } from "aws-amplify/api";
-import { getDish, getRestaurant, listDishes } from "../../../graphql/queries";
+import { getRestaurant, listDishes } from "../../../graphql/queries";
+import { IconButton } from "../../ui";
+import { colors } from "../../../theme";
 
 export default function RestaurantDetailsPage() {
   const [restaurant, setRestaurant] = useState(null);
@@ -49,7 +51,13 @@ export default function RestaurantDetailsPage() {
 
   if (!restaurant) {
     return (
-      <ActivityIndicator style={styles.ActivityIndicator} size={"large"} />
+      <View style={styles.page}>
+        <ActivityIndicator
+          style={styles.ActivityIndicator}
+          size={"large"}
+          color={colors.accent}
+        />
+      </View>
     );
   }
 
@@ -62,13 +70,13 @@ export default function RestaurantDetailsPage() {
         renderItem={({ item }) => <DishListItem dish={item} />}
       />
 
-      <Ionicons
+      <IconButton
         onPress={() => navigation.goBack()}
-        name="arrow-back-circle"
-        size={45}
-        color="black"
+        size={40}
         style={styles.iconContainer}
-      />
+      >
+        <Ionicons name="arrow-back" size={20} color={colors.text} />
+      </IconButton>
     </View>
   );
 }

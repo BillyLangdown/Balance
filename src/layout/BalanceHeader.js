@@ -1,10 +1,7 @@
 import { Text, View, StyleSheet } from "react-native";
-import { useTheme } from "@aws-amplify/ui-react-native";
+import { colors, radius, spacing, typography } from "../theme";
 
 const BalanceHeader = () => {
-  const {
-    tokens: { space, fontSizes },
-  } = useTheme();
   return (
     <View style={styles.page}>
       <Text style={styles.title}>balance</Text>
@@ -18,25 +15,25 @@ export default BalanceHeader;
 
 const styles = StyleSheet.create({
   page: {
-    marginBottom: 20,
-    justifyContent: "center",
+    marginBottom: spacing.xl,
+    paddingTop: spacing.xxl,
+    paddingHorizontal: spacing.lg,
+    alignItems: "center",
   },
   title: {
-    marginLeft: 20,
-    fontSize: 90,
-    fontWeight: "700",
-    color: "#FFFFFF",
+    ...typography.display,
+    fontSize: 56,
+    marginBottom: spacing.sm,
   },
   subtitle: {
-    color: "black",
-    padding: 4,
+    color: colors.accent,
+    fontSize: 13,
+    fontWeight: "700",
   },
   subtitleBox: {
-    backgroundColor: "orange",
-    paddingLeft: 40,
-    paddingRight: 5,
-    marginRight: 160,
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
+    backgroundColor: colors.accentDim,
+    paddingVertical: spacing.xs + 2,
+    paddingHorizontal: spacing.md,
+    borderRadius: radius.pill,
   },
 });
