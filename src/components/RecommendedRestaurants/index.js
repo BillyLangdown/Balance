@@ -2,11 +2,13 @@ import React from "react";
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { colors, radius, spacing, shadow } from "../../theme";
+import { Pill } from "../ui";
 
 const RecommendedRestaurants = ({ restaurant }) => {
   return (
     <Pressable style={({ pressed }) => [styles.container, pressed && styles.pressed]}>
       <Image source={{ uri: restaurant.image }} style={styles.image} />
+      <Pill label="Fits your goals" variant="accent" style={styles.pill} />
       <LinearGradient
         colors={["transparent", "rgba(0,0,0,0.85)"]}
         style={styles.overlay}
@@ -15,7 +17,7 @@ const RecommendedRestaurants = ({ restaurant }) => {
           {restaurant.name}
         </Text>
         <Text style={styles.subtitle} numberOfLines={1}>
-          ${restaurant.deliveryFee}0 &#8226; {restaurant.minDeliveryTime}-
+          ${restaurant.deliveryFee.toFixed(2)} &#8226; {restaurant.minDeliverytime}-
           {restaurant.maxDeliveryTime} min
         </Text>
       </LinearGradient>
@@ -41,6 +43,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     position: "absolute",
+  },
+  pill: {
+    position: "absolute",
+    top: spacing.sm,
+    left: spacing.sm,
   },
   overlay: {
     flex: 1,

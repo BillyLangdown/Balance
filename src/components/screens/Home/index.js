@@ -61,8 +61,10 @@ export default function Home() {
       }
     };
 
-    fetchRecommendedRestaurants();
-  }, []);
+    if (diet.totalCalories > 0) {
+      fetchRecommendedRestaurants();
+    }
+  }, [diet.totalCalories, diet.proteinGrams, diet.carbGrams, diet.fatGrams]);
 
   return (
     <View style={styles.page}>

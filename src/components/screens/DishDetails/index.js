@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import Basket from "../Basket";
 import basketContext from "../../../contexts/basketContext";
 import { Button, IconButton } from "../../ui";
-import { colors, radius, spacing, typography } from "../../../theme";
+import { colors, macroColors, radius, spacing, typography } from "../../../theme";
 
 export default function DishDetails({ route }) {
   const { dish } = route.params;
@@ -49,6 +49,36 @@ export default function DishDetails({ route }) {
       <View style={styles.body}>
         <Text style={typography.h1}>{dish.name}</Text>
         <Text style={styles.description}>{dish.description}</Text>
+
+        {dish.totalCalories ? (
+          <View style={styles.nutritionRow}>
+            <View style={styles.nutritionStat}>
+              <Text style={[styles.nutritionValue, { color: macroColors.calories }]}>
+                {dish.totalCalories}
+              </Text>
+              <Text style={styles.nutritionLabel}>kcal</Text>
+            </View>
+            <View style={styles.nutritionStat}>
+              <Text style={[styles.nutritionValue, { color: macroColors.protein }]}>
+                {dish.protein}g
+              </Text>
+              <Text style={styles.nutritionLabel}>protein</Text>
+            </View>
+            <View style={styles.nutritionStat}>
+              <Text style={[styles.nutritionValue, { color: macroColors.carbs }]}>
+                {dish.carbs}g
+              </Text>
+              <Text style={styles.nutritionLabel}>carbs</Text>
+            </View>
+            <View style={styles.nutritionStat}>
+              <Text style={[styles.nutritionValue, { color: macroColors.fat }]}>
+                {dish.fat}g
+              </Text>
+              <Text style={styles.nutritionLabel}>fat</Text>
+            </View>
+          </View>
+        ) : null}
+
         <View style={styles.separator} />
         <View style={styles.row}>
           <IconButton size={56} onPress={onMinus}>
@@ -87,6 +117,31 @@ const styles = StyleSheet.create({
   description: {
     ...typography.bodyMuted,
     paddingTop: spacing.sm,
+  },
+  nutritionRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    marginTop: spacing.lg,
+  },
+  nutritionStat: {
+    alignItems: "center",
+    flex: 1,
+  },
+  nutritionValue: {
+    fontSize: 16,
+    fontWeight: "800",
+  },
+  nutritionLabel: {
+    color: colors.textMuted,
+    fontSize: 11,
+    fontWeight: "600",
+    marginTop: 2,
+    textTransform: "uppercase",
   },
   separator: {
     height: 1,

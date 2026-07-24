@@ -123,6 +123,16 @@ function getTheme() {
         },
       },
     },
+    // TextField's container defaults to alignItems: 'flex-start', which lets
+    // the input shrink to its content width instead of filling the row.
+    components: {
+      textField: {
+        container: {
+          alignItems: "stretch",
+          width: "100%",
+        },
+      },
+    },
   };
 
   return theme;

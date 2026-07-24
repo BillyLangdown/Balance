@@ -121,7 +121,11 @@ const BrowseStackNavigator = () => {
         name="RestaurantDetails"
         component={RestaurantDetailsPage}
       />
-      <BrowseStack.Screen name="DishDetails" component={DishDetails} />
+      <BrowseStack.Screen
+        options={{ title: "Dish Details" }}
+        name="DishDetails"
+        component={DishDetails}
+      />
       <BrowseStack.Screen name="Basket" component={Basket} />
     </BrowseStack.Navigator>
   );

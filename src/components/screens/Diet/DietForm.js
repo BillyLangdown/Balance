@@ -172,10 +172,10 @@ const DietForm = () => {
                 <View style={styles.activityLevels}>
                   {[
                     { key: "sedentary", label: "Sedentary" },
-                    { key: "lightly ", label: "Lightly" },
-                    { key: "moderately ", label: "Moderately" },
-                    { key: "very ", label: "Very" },
-                    { key: "extremely ", label: "Extremely" },
+                    { key: "lightly active", label: "Lightly" },
+                    { key: "moderately active", label: "Moderately" },
+                    { key: "very active", label: "Very" },
+                    { key: "extremely active", label: "Extremely" },
                   ].map((level) => (
                     <Pressable
                       key={level.key}

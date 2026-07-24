@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 import { colors, radius, spacing } from "../../theme";
 
 const DishListItem = ({ dish }) => {
@@ -17,6 +18,17 @@ const DishListItem = ({ dish }) => {
         <Text style={styles.subtitle} numberOfLines={2}>
           {dish.description}
         </Text>
+        {dish.totalCalories ? (
+          <View style={styles.macroRow}>
+            <View style={styles.macroTag}>
+              <Ionicons name="flame" size={11} color={colors.accent} />
+              <Text style={styles.macroTagText}>{dish.totalCalories} kcal</Text>
+            </View>
+            <View style={styles.macroTag}>
+              <Text style={styles.macroTagText}>{dish.protein}g protein</Text>
+            </View>
+          </View>
+        ) : null}
         <Text style={styles.price}>${dish.price}</Text>
       </View>
 
@@ -60,6 +72,25 @@ const styles = StyleSheet.create({
   },
   price: {
     color: colors.accent,
+    fontWeight: "700",
+  },
+  macroRow: {
+    flexDirection: "row",
+    gap: spacing.xs,
+    marginBottom: spacing.sm,
+  },
+  macroTag: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    backgroundColor: colors.surfaceHigh,
+    paddingVertical: 3,
+    paddingHorizontal: spacing.sm,
+    borderRadius: radius.pill,
+  },
+  macroTagText: {
+    color: colors.textSecondary,
+    fontSize: 11,
     fontWeight: "700",
   },
   image: {

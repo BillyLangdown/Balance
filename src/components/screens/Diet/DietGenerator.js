@@ -48,19 +48,19 @@ export default function DietGenerator(userData) {
     let fitnessFactor;
     let proteinPercentage, carbPercentage, fatPercentage;
     switch (fitnessGoal) {
-      case "lose weight":
+      case "Weight Loss":
         fitnessFactor = 0.9; // Reduce calorie intake for weight loss
         proteinPercentage = 45;
         carbPercentage = 30;
         fatPercentage = 25;
         break;
-      case "maintain weight":
+      case "Maintenance":
         fitnessFactor = 1; // Maintain current calorie intake
         proteinPercentage = 40;
         carbPercentage = 30;
         fatPercentage = 30;
         break;
-      case "gain muscle":
+      case "Muscle Gain":
         fitnessFactor = 1.1; // Increase calorie intake for muscle gain
         proteinPercentage = 35;
         carbPercentage = 40;

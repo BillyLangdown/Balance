@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, radius, spacing, shadow } from "../../theme";
+import { Pill } from "../ui";
 
 const RestaurantItem = ({ restaurant }) => {
   const navigation = useNavigation();
@@ -18,18 +19,27 @@ const RestaurantItem = ({ restaurant }) => {
     >
       <Image source={{ uri: restaurant.image }} style={styles.image} />
       <View style={styles.body}>
-        <View style={styles.textBlock}>
-          <Text style={styles.title} numberOfLines={1}>
-            {restaurant.name}
-          </Text>
-          <Text style={styles.subtitle}>
-            ${restaurant.deliveryFee.toFixed(2)} &#8226;{" "}
-            {restaurant.minDeliverytime}-{restaurant.maxDeliveryTime} min
-          </Text>
-        </View>
-        <View style={styles.rating}>
-          <Ionicons name="star" size={12} color={colors.accent} />
-          <Text style={styles.ratingText}>{restaurant.rating}</Text>
+        {restaurant.tags?.length ? (
+          <View style={styles.tagRow}>
+            {restaurant.tags.map((tag) => (
+              <Pill key={tag} label={tag} variant="accent" />
+            ))}
+          </View>
+        ) : null}
+        <View style={styles.row}>
+          <View style={styles.textBlock}>
+            <Text style={styles.title} numberOfLines={1}>
+              {restaurant.name}
+            </Text>
+            <Text style={styles.subtitle}>
+              ${restaurant.deliveryFee.toFixed(2)} &#8226;{" "}
+              {restaurant.minDeliverytime}-{restaurant.maxDeliveryTime} min
+            </Text>
+          </View>
+          <View style={styles.rating}>
+            <Ionicons name="star" size={12} color={colors.accent} />
+            <Text style={styles.ratingText}>{restaurant.rating}</Text>
+          </View>
         </View>
       </View>
     </Pressable>
@@ -57,9 +67,16 @@ const styles = StyleSheet.create({
     aspectRatio: 5 / 3,
   },
   body: {
+    padding: spacing.md,
+  },
+  tagRow: {
+    flexDirection: "row",
+    gap: spacing.xs,
+    marginBottom: spacing.sm,
+  },
+  row: {
     flexDirection: "row",
     alignItems: "center",
-    padding: spacing.md,
   },
   textBlock: {
     flex: 1,
