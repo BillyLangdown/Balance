@@ -16,6 +16,8 @@ import {
 import DietContext from "../../../contexts/DietContext";
 import DietGenerator from "./DietGenerator";
 import FitnessGoalContext from "../../../contexts/FitnessGoalContext";
+import { Button } from "../../ui";
+import { colors, radius, spacing, typography } from "../../../theme";
 
 const DietForm = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -28,8 +30,8 @@ const DietForm = () => {
     activityLevel: "",
     gender: "",
   });
-  const { diet, setDiet } = useContext(DietContext);
-  const { fitnessGoal, setFitnessGoal } = useContext(FitnessGoalContext);
+  const { setDiet } = useContext(DietContext);
+  const { setFitnessGoal } = useContext(FitnessGoalContext);
   const [currentPage, setCurrentPage] = useState(1);
 
   const handleNextPage = () => {
@@ -43,7 +45,6 @@ const DietForm = () => {
 
   const handleSaveDiet = () => {
     setFitnessGoal(userData.fitnessGoal);
-    console.log(userData, "<-- user data");
     DietGenerator(userData)
       .then((result) => {
         setDiet(result);
@@ -58,12 +59,7 @@ const DietForm = () => {
   return (
     <>
       <View style={styles.bottomSectionContainer}>
-        <Pressable
-          style={styles.setDiet}
-          onPress={() => setIsModalVisible(true)}
-        >
-          <Text style={styles.buttonText}>Set Diet</Text>
-        </Pressable>
+        <Button label="Set Diet" onPress={() => setIsModalVisible(true)} />
       </View>
 
       <Modal
@@ -75,13 +71,14 @@ const DietForm = () => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Pressable style={styles.closeIcon} onPress={handleCloseModal}>
-              <Ionicons name="close-outline" size={24} color="black" />
+              <Ionicons name="close-outline" size={26} color={colors.textSecondary} />
             </Pressable>
             {currentPage === 1 && (
               <>
                 <TextInput
                   style={styles.input}
                   placeholder="Enter your age"
+                  placeholderTextColor={colors.textMuted}
                   keyboardType="numeric"
                   maxLength={3}
                   value={userData.age.toString()}
@@ -95,6 +92,7 @@ const DietForm = () => {
                   <TextInput
                     style={[styles.input, styles.inputFeet]}
                     placeholder="Feet"
+                    placeholderTextColor={colors.textMuted}
                     keyboardType="numeric"
                     maxLength={1}
                     value={userData.feet}
@@ -109,6 +107,7 @@ const DietForm = () => {
                   <TextInput
                     style={[styles.input, styles.inputInches]}
                     placeholder="Inches"
+                    placeholderTextColor={colors.textMuted}
                     keyboardType="numeric"
                     maxLength={2}
                     value={userData.inches}
@@ -123,6 +122,7 @@ const DietForm = () => {
                 <TextInput
                   style={styles.input}
                   placeholder="Enter your weight (kg)"
+                  placeholderTextColor={colors.textMuted}
                   keyboardType="numeric"
                   maxLength={5}
                   value={userData.weight}
@@ -161,131 +161,48 @@ const DietForm = () => {
                   </View>
                 </View>
 
-                <Pressable
-                  style={[styles.button, styles.nextButton]}
-                  onPress={handleNextPage}
-                >
-                  <Text style={styles.buttonText}>Next</Text>
-                </Pressable>
+                <Button label="Next" onPress={handleNextPage} style={styles.nextButton} />
               </>
             )}
             {currentPage === 2 && (
               <>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Select your activity level"
-                  editable={false}
-                  value={userData.activityLevel}
-                />
+                <Text style={styles.genderLabel}>
+                  Select your level of activity:
+                </Text>
                 <View style={styles.activityLevels}>
-                  <Text style={styles.genderLabel}>
-                    Select your level of activity:
-                  </Text>
-                  <View style={styles.individualGoal}>
+                  {[
+                    { key: "sedentary", label: "Sedentary" },
+                    { key: "lightly active", label: "Lightly" },
+                    { key: "moderately active", label: "Moderately" },
+                    { key: "very active", label: "Very" },
+                    { key: "extremely active", label: "Extremely" },
+                  ].map((level) => (
                     <Pressable
+                      key={level.key}
                       style={[
                         styles.activityLevelButton,
-                        userData.activityLevel === "sedentary" &&
+                        userData.activityLevel === level.key &&
                           styles.selectedOption,
                       ]}
                       onPress={() =>
-                        setUserData({ ...userData, activityLevel: "sedentary" })
+                        setUserData({ ...userData, activityLevel: level.key })
                       }
                     >
-                      <Text style={styles.activityLevelText}>Sedentary</Text>
+                      <Text style={styles.activityLevelText}>{level.label}</Text>
                     </Pressable>
-                  </View>
-                  <View style={styles.individualGoal}>
-                    <Pressable
-                      style={[
-                        styles.activityLevelButton,
-                        userData.activityLevel === "lightly" &&
-                          styles.selectedOption, // Check if this option is selected
-                      ]}
-                      onPress={() =>
-                        setUserData({
-                          ...userData,
-                          activityLevel: "lightly ",
-                        })
-                      }
-                    >
-                      <Text style={styles.activityLevelText}>Lightly</Text>
-                    </Pressable>
-                  </View>
-                  <View style={styles.individualGoal}>
-                    <Pressable
-                      style={[
-                        styles.activityLevelButton,
-                        userData.activityLevel === "moderately " &&
-                          styles.selectedOption, // Check if this option is selected
-                      ]}
-                      onPress={() =>
-                        setUserData({
-                          ...userData,
-                          activityLevel: "moderately ",
-                        })
-                      }
-                    >
-                      <Text style={styles.activityLevelText}>Moderately</Text>
-                    </Pressable>
-                  </View>
-                  <View style={styles.individualGoal}>
-                    <Pressable
-                      style={[
-                        styles.activityLevelButton,
-                        userData.activityLevel === "very " &&
-                          styles.selectedOption,
-                      ]}
-                      onPress={() =>
-                        setUserData({
-                          ...userData,
-                          activityLevel: "very ",
-                        })
-                      }
-                    >
-                      <Text style={styles.activityLevelText}>Very </Text>
-                    </Pressable>
-                  </View>
-                  <View style={styles.individualGoal}>
-                    <Pressable
-                      style={[
-                        styles.activityLevelButton,
-                        userData.activityLevel === "extremely " &&
-                          styles.selectedOption, // Check if this option is selected
-                      ]}
-                      onPress={() =>
-                        setUserData({
-                          ...userData,
-                          activityLevel: "extremely ",
-                        })
-                      }
-                    >
-                      <Text style={styles.activityLevelText}>Extremely</Text>
-                    </Pressable>
-                  </View>
+                  ))}
                 </View>
-                <Pressable
-                  style={[styles.button, styles.saveButton]}
-                  onPress={handleNextPage}
-                >
-                  <Text style={styles.buttonText}>Next</Text>
-                </Pressable>
+                <Button label="Next" onPress={handleNextPage} style={styles.nextButton} />
               </>
             )}
 
             {currentPage === 3 && (
               <>
-                <TextInput
-                  style={styles.input}
-                  placeholder="Select your fitness goal"
-                  editable={false}
-                  value={userData.fitnessGoal}
-                />
+                <Text style={styles.genderLabel}>Select your fitness goal:</Text>
                 <View style={styles.fitnessGoals}>
                   <View style={styles.individualGoal}>
                     <Pressable
                       style={[
-                        styles.button,
                         styles.fitnessGoalButton,
                         userData.fitnessGoal === "Muscle Gain" &&
                           styles.selectedOption,
@@ -296,8 +213,8 @@ const DietForm = () => {
                     >
                       <MaterialCommunityIcons
                         name="arm-flex"
-                        size={38}
-                        color="#3C4142"
+                        size={34}
+                        color={colors.text}
                       />
                     </Pressable>
                     <Text style={styles.fitnessGoalText}>Gain weight</Text>
@@ -305,7 +222,6 @@ const DietForm = () => {
                   <View style={styles.individualGoal}>
                     <Pressable
                       style={[
-                        styles.button,
                         styles.fitnessGoalButton,
                         userData.fitnessGoal === "Weight Loss" &&
                           styles.selectedOption,
@@ -316,8 +232,8 @@ const DietForm = () => {
                     >
                       <FontAwesome6
                         name="weight-scale"
-                        size={30}
-                        color="#3C4142"
+                        size={28}
+                        color={colors.text}
                       />
                     </Pressable>
                     <Text style={styles.fitnessGoalText}>Weight Loss</Text>
@@ -325,7 +241,6 @@ const DietForm = () => {
                   <View style={styles.individualGoal}>
                     <Pressable
                       style={[
-                        styles.button,
                         styles.fitnessGoalButton,
                         userData.fitnessGoal === "Maintenance" &&
                           styles.selectedOption,
@@ -334,17 +249,12 @@ const DietForm = () => {
                         setUserData({ ...userData, fitnessGoal: "Maintenance" })
                       }
                     >
-                      <MaterialIcons name="balance" size={34} color="#3C4142" />
+                      <MaterialIcons name="balance" size={30} color={colors.text} />
                     </Pressable>
                     <Text style={styles.fitnessGoalText}>Maintenance</Text>
                   </View>
                 </View>
-                <Pressable
-                  style={[styles.button, styles.saveButton]}
-                  onPress={handleSaveDiet}
-                >
-                  <Text style={styles.buttonText}>Save</Text>
-                </Pressable>
+                <Button label="Save" onPress={handleSaveDiet} style={styles.nextButton} />
               </>
             )}
           </View>
@@ -356,94 +266,70 @@ const DietForm = () => {
 
 const styles = StyleSheet.create({
   bottomSectionContainer: {
-    marginTop: 30,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  setDiet: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#3C4142",
-    width: "100%",
-    height: 80,
-  },
-  buttonText: {
-    fontSize: 20,
-    fontWeight: "500",
-    color: "#FAF9F6",
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.lg,
   },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: colors.overlay,
   },
   fitnessGoals: {
-    flexDirection: "column",
-    justifyContent: "space-around",
-    marginBottom: 10,
-    padding: 15,
-  },
-  fitnessGoalButton: {
-    width: 70,
-    height: 70,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 50,
-  },
-  fitnessGoalText: {
-    fontSize: 17,
-    fontWeight: "600",
-  },
-  individualGoal: {
     flexDirection: "row",
     justifyContent: "space-around",
+    marginBottom: spacing.lg,
+    paddingVertical: spacing.md,
+  },
+  fitnessGoalButton: {
+    width: 66,
+    height: 66,
+    borderWidth: 1,
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceHigh,
+    borderRadius: radius.pill,
     alignItems: "center",
-    paddingVertical: 5,
+    justifyContent: "center",
+  },
+  fitnessGoalText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: colors.textSecondary,
+    marginTop: spacing.sm,
+  },
+  individualGoal: {
+    alignItems: "center",
   },
   modalContent: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 20,
-    width: "80%",
+    backgroundColor: colors.surfaceElevated,
+    borderRadius: radius.xl,
+    padding: spacing.xl,
+    width: "88%",
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  button: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    borderRadius: 5,
-    marginLeft: 10,
-  },
-  saveButton: {
-    marginLeft: "auto",
-    backgroundColor: "#3C4142",
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceHigh,
+    color: colors.text,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    marginBottom: spacing.md,
   },
   nextButton: {
-    marginLeft: "auto",
-    backgroundColor: "#3C4142",
+    marginTop: spacing.sm,
   },
   activityLevels: {
     flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: 10,
+    marginBottom: spacing.lg,
+    marginTop: spacing.md,
   },
-
   closeIcon: {
     marginLeft: "auto",
-    paddingBottom: 5,
-  },
-  pageTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 10,
+    marginBottom: spacing.sm,
   },
   inputRow: {
     flexDirection: "row",
@@ -451,71 +337,64 @@ const styles = StyleSheet.create({
   },
   inputFeet: {
     flex: 1,
-    marginRight: 5,
+    marginRight: spacing.sm,
   },
   inputInches: {
     flex: 1,
-    marginLeft: 5,
   },
   inputSeparator: {
     fontSize: 18,
     fontWeight: "bold",
-  },
-  activityLevels: {
-    paddingHorizontal: 15,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    marginBottom: 10,
+    color: colors.textSecondary,
+    marginHorizontal: spacing.xs,
   },
   activityLevelButton: {
     flexBasis: "47%",
     aspectRatio: 2.5,
-    marginVertical: 5,
+    marginVertical: spacing.xs,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: "#ccc",
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceHigh,
     borderWidth: 1,
-    color: "#3C4142",
-    borderRadius: 5,
-    padding: 5,
-    alignContent: "center",
+    borderRadius: radius.md,
   },
   activityLevelText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#3C4142",
+    fontSize: 14,
+    fontWeight: "700",
+    color: colors.text,
   },
   genderContainer: {
-    marginBottom: 20,
+    marginBottom: spacing.lg,
   },
   genderLabel: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
+    ...typography.h3,
+    marginBottom: spacing.md,
   },
   genderOptions: {
     flexDirection: "row",
     justifyContent: "space-between",
+    gap: spacing.sm,
   },
   genderOption: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    paddingVertical: 12,
-    marginHorizontal: 5,
+    borderColor: colors.border,
+    backgroundColor: colors.surfaceHigh,
+    borderRadius: radius.md,
+    paddingVertical: spacing.md,
   },
-
   selectedOption: {
-    borderColor: "#3C4142",
+    borderColor: colors.accent,
     borderWidth: 2,
+    backgroundColor: colors.accentDim,
   },
   optionText: {
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 15,
+    fontWeight: "700",
+    color: colors.text,
   },
 });
 

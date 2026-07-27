@@ -1,23 +1,29 @@
 import { StyleSheet } from "react-native";
+import { colors, spacing, typography } from "../../../theme";
 
 export default StyleSheet.create({
   page: {
     flex: 1,
+    backgroundColor: colors.bg,
   },
   image: {
     width: "100%",
     aspectRatio: 5 / 3,
   },
   title: {
-    fontSize: 30,
-    fontWeight: "600",
-    paddingBottom: 5,
+    ...typography.h1,
+    paddingBottom: spacing.xs,
   },
   subtitle: {
-    fontSize: 15,
+    ...typography.bodyMuted,
+  },
+  menuTitle: {
+    ...typography.h2,
+    marginTop: spacing.lg,
   },
   bodyContainer: {
-    padding: 15,
+    padding: spacing.lg,
+    backgroundColor: colors.bg,
   },
   iconContainer: {
     position: "absolute",

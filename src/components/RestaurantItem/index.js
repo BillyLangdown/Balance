@@ -1,5 +1,9 @@
+import React from "react";
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
+import { colors, radius, spacing, shadow } from "../../theme";
+import { Pill } from "../ui";
 
 const RestaurantItem = ({ restaurant }) => {
   const navigation = useNavigation();
@@ -9,23 +13,33 @@ const RestaurantItem = ({ restaurant }) => {
   };
 
   return (
-    <Pressable onPress={onPress} style={styles.restaurantContainer}>
-      <Image
-        source={{
-          uri: restaurant.image,
-        }}
-        style={styles.image}
-      />
-      <View style={styles.row}>
-        <View>
-          <Text style={styles.title}> {restaurant.name} </Text>
-          <Text style={styles.subtitle}>
-            ${restaurant.deliveryFee.toFixed(2)} ​​&#8226;{" "}
-            {restaurant.minDeliverytime}-{restaurant.maxDeliveryTime} minutes
-          </Text>
-        </View>
-        <View style={styles.rating}>
-          <Text> {restaurant.rating} </Text>
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [styles.container, pressed && styles.pressed]}
+    >
+      <Image source={{ uri: restaurant.image }} style={styles.image} />
+      <View style={styles.body}>
+        {restaurant.tags?.length ? (
+          <View style={styles.tagRow}>
+            {restaurant.tags.map((tag) => (
+              <Pill key={tag} label={tag} variant="accent" />
+            ))}
+          </View>
+        ) : null}
+        <View style={styles.row}>
+          <View style={styles.textBlock}>
+            <Text style={styles.title} numberOfLines={1}>
+              {restaurant.name}
+            </Text>
+            <Text style={styles.subtitle}>
+              ${restaurant.deliveryFee.toFixed(2)} &#8226;{" "}
+              {restaurant.minDeliverytime}-{restaurant.maxDeliveryTime} min
+            </Text>
+          </View>
+          <View style={styles.rating}>
+            <Ionicons name="star" size={12} color={colors.accent} />
+            <Text style={styles.ratingText}>{restaurant.rating}</Text>
+          </View>
         </View>
       </View>
     </Pressable>
@@ -35,34 +49,60 @@ const RestaurantItem = ({ restaurant }) => {
 export default RestaurantItem;
 
 const styles = StyleSheet.create({
-  restaurantContainer: {
+  container: {
     width: "100%",
-    marginBottom: 10,
+    marginBottom: spacing.lg,
+    borderRadius: radius.lg,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    overflow: "hidden",
+    ...shadow.card,
+  },
+  pressed: {
+    opacity: 0.85,
   },
   image: {
     width: "100%",
     aspectRatio: 5 / 3,
-    marginBottom: 5,
   },
-  title: {
-    fontSize: 15,
-    fontWeight: "500",
-    marginVertical: 5,
+  body: {
+    padding: spacing.md,
   },
-  subtitle: {
-    color: "gray",
+  tagRow: {
+    flexDirection: "row",
+    gap: spacing.xs,
+    marginBottom: spacing.sm,
   },
   row: {
     flexDirection: "row",
     alignItems: "center",
   },
+  textBlock: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: colors.text,
+    marginBottom: 4,
+  },
+  subtitle: {
+    color: colors.textSecondary,
+    fontSize: 13,
+  },
   rating: {
-    marginLeft: "auto",
-    backgroundColor: "lightgrey",
-    width: 30,
-    height: 30,
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20,
+    gap: 4,
+    backgroundColor: colors.surfaceHigh,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: radius.pill,
+  },
+  ratingText: {
+    color: colors.text,
+    fontSize: 13,
+    fontWeight: "600",
   },
 });

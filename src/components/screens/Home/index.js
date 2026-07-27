@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View, Text } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import React, { useState, useEffect, useContext } from "react";
 import offers from "../../../../assets/data/offers.json";
 import OfferItem from "../../OfferItem";
@@ -8,6 +8,8 @@ import { generateClient } from "aws-amplify/api";
 import { listDishes } from "../../../graphql/queries"; // Update to the correct query
 import { getRestaurant } from "../../../graphql/queries"; // Update to the correct query
 import DietContext from "../../../contexts/DietContext";
+import { SectionHeader } from "../../ui";
+import { colors, spacing } from "../../../theme";
 
 export default function Home() {
   const { diet, setDiet } = useContext(DietContext);
@@ -59,23 +61,24 @@ export default function Home() {
       }
     };
 
-    fetchRecommendedRestaurants();
-  }, []);
+    if (diet.totalCalories > 0) {
+      fetchRecommendedRestaurants();
+    }
+  }, [diet.totalCalories, diet.proteinGrams, diet.carbGrams, diet.fatGrams]);
 
   return (
     <View style={styles.page}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => (
           <>
-            <HomeHeader style={styles.header} />
-            <Text style={styles.subtitle}>Discounts</Text>
+            <HomeHeader />
+            <SectionHeader title="Discounts" />
           </>
         )}
         ListFooterComponent={() => (
           <View>
-            <Text style={styles.subtitle}>
-              Restaurants that suit your goals
-            </Text>
+            <SectionHeader title="Suits your goals" />
             <FlatList
               data={recommendedRestaurants}
               renderItem={({ item }) => (
@@ -83,7 +86,9 @@ export default function Home() {
               )}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.rowList}
             />
+            <View style={styles.bottomSpace} />
           </View>
         )}
         data={[{ key: "offers", data: offers }]}
@@ -93,6 +98,7 @@ export default function Home() {
             renderItem={({ item }) => <OfferItem offer={item} />}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.rowList}
           />
         )}
       />
@@ -103,11 +109,13 @@ export default function Home() {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    paddingBottom: 10,
+    backgroundColor: colors.bg,
   },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    padding: 10,
+  rowList: {
+    paddingHorizontal: spacing.lg,
+    gap: spacing.md,
+  },
+  bottomSpace: {
+    height: spacing.xxl,
   },
 });

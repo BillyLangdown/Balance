@@ -23,7 +23,16 @@ import {
 } from "@aws-amplify/ui-react-native";
 
 import getTheme from "../theme";
+import { colors } from "../theme";
 const Stack = createNativeStackNavigator();
+
+const stackScreenOptions = {
+  headerStyle: { backgroundColor: colors.surface },
+  headerTintColor: colors.text,
+  headerTitleStyle: { color: colors.text, fontWeight: "700" },
+  headerShadowVisible: false,
+  contentStyle: { backgroundColor: colors.bg },
+};
 
 const RootNavigator = () => {
   const {
@@ -36,7 +45,9 @@ const RootNavigator = () => {
     <ThemeProvider theme={myTheme}>
       <Authenticator.Provider>
         <Authenticator Header={BalanceHeader}>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Navigator
+            screenOptions={{ ...stackScreenOptions, headerShown: false }}
+          >
             <Stack.Screen name="HomeTabs" component={HomeTabs} />
           </Stack.Navigator>
         </Authenticator>
@@ -49,7 +60,12 @@ const Tab = createMaterialBottomTabNavigator();
 
 const HomeTabs = () => {
   return (
-    <Tab.Navigator barStyle={{ backgroundColor: "white" }}>
+    <Tab.Navigator
+      barStyle={{ backgroundColor: colors.surface }}
+      activeColor={colors.accent}
+      inactiveColor={colors.textMuted}
+      sceneAnimationEnabled={false}
+    >
       <Tab.Screen
         name="Home"
         component={Home}
@@ -64,7 +80,7 @@ const HomeTabs = () => {
         component={BrowseStackNavigator}
         options={{
           tabBarIcon: ({ color }) => (
-            <FontAwesome name="search" size={24} color={color} />
+            <FontAwesome name="search" size={22} color={color} />
           ),
         }}
       />
@@ -82,7 +98,7 @@ const HomeTabs = () => {
         component={Profile}
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialIcons name="person" size={28} color={color} />
+            <MaterialIcons name="person" size={26} color={color} />
           ),
         }}
       />
@@ -94,7 +110,7 @@ const BrowseStack = createNativeStackNavigator();
 
 const BrowseStackNavigator = () => {
   return (
-    <BrowseStack.Navigator>
+    <BrowseStack.Navigator screenOptions={stackScreenOptions}>
       <BrowseStack.Screen
         options={{ headerShown: false }}
         name="BrowseRestaurants"
@@ -105,7 +121,11 @@ const BrowseStackNavigator = () => {
         name="RestaurantDetails"
         component={RestaurantDetailsPage}
       />
-      <BrowseStack.Screen name="DishDetails" component={DishDetails} />
+      <BrowseStack.Screen
+        options={{ title: "Dish Details" }}
+        name="DishDetails"
+        component={DishDetails}
+      />
       <BrowseStack.Screen name="Basket" component={Basket} />
     </BrowseStack.Navigator>
   );

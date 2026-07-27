@@ -2,61 +2,55 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import BasketHeader from "../../BasketHeader";
+import { colors, spacing, typography, radius } from "../../../theme";
 
 const HomeHeader = () => {
   return (
     <LinearGradient
-      colors={["#3C4142", "#f2f2f2"]}
+      colors={[colors.surface, colors.bg]}
       style={styles.container}
       start={[0, 0]}
       end={[0, 1]}
     >
-      <View style={styles.content}>
-        <Text style={styles.title}> balance </Text>
+      <View style={styles.topRow}>
         <View style={styles.subtitleBox}>
           <Text style={styles.subtitle}>nutrition made easy</Text>
         </View>
-      </View>
-      <View style={styles.basketHeaderContainer}>
         <BasketHeader />
       </View>
+      <Text style={styles.title}>balance</Text>
     </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "row",
-    marginBottom: 5,
-    height: 200,
+    paddingTop: 64,
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.xl,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
   },
-  content: {
-    paddingTop: 60,
-    marginEnd: "auto",
+  topRow: {
+    flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    justifyContent: "space-between",
+    marginBottom: spacing.md,
   },
   title: {
-    fontSize: 64,
-    fontWeight: "bold",
-    color: "#FAF9F6",
+    ...typography.display,
+    fontSize: 44,
   },
   subtitle: {
-    color: "black",
-    padding: 4,
+    color: colors.accent,
+    fontSize: 13,
+    fontWeight: "700",
   },
   subtitleBox: {
-    backgroundColor: "orange",
-    paddingLeft: 40,
-    paddingRight: 15,
-    marginRight: 100,
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
-  },
-  basketHeaderContainer: {
-    paddingTop: 100,
-    marginRight: 20,
+    backgroundColor: colors.accentDim,
+    paddingVertical: spacing.xs + 2,
+    paddingHorizontal: spacing.md,
+    borderRadius: radius.pill,
   },
 });
 

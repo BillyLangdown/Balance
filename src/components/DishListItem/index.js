@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import DishDetails from "../screens/DishDetails";
+import { Ionicons } from "@expo/vector-icons";
+import { colors, radius, spacing } from "../../theme";
 
 const DishListItem = ({ dish }) => {
   const navigation = useNavigation();
@@ -8,12 +9,27 @@ const DishListItem = ({ dish }) => {
   return (
     <Pressable
       onPress={() => navigation.navigate("DishDetails", { dish: dish })}
-      style={styles.container}
+      style={({ pressed }) => [styles.container, pressed && styles.pressed]}
     >
-      <View style={{ flex: 1 }}>
-        <Text style={styles.title}> {dish.name}</Text>
-        <Text style={styles.subtitle}> {dish.description}</Text>
-        <Text style={styles.price}> {dish.price}</Text>
+      <View style={styles.textBlock}>
+        <Text style={styles.title} numberOfLines={1}>
+          {dish.name}
+        </Text>
+        <Text style={styles.subtitle} numberOfLines={2}>
+          {dish.description}
+        </Text>
+        {dish.totalCalories ? (
+          <View style={styles.macroRow}>
+            <View style={styles.macroTag}>
+              <Ionicons name="flame" size={11} color={colors.accent} />
+              <Text style={styles.macroTagText}>{dish.totalCalories} kcal</Text>
+            </View>
+            <View style={styles.macroTag}>
+              <Text style={styles.macroTagText}>{dish.protein}g protein</Text>
+            </View>
+          </View>
+        ) : null}
+        <Text style={styles.price}>${dish.price}</Text>
       </View>
 
       {dish.image && (
@@ -28,26 +44,58 @@ export default DishListItem;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    padding: 15,
-    marginHorizontal: 10,
+    alignItems: "center",
+    padding: spacing.md,
+    marginHorizontal: spacing.lg,
+    marginBottom: spacing.sm,
+    borderRadius: radius.md,
     borderBottomWidth: 1,
-    borderBottomColor: "lightgrey",
+    borderBottomColor: colors.border,
+  },
+  pressed: {
+    backgroundColor: colors.surfaceHigh,
+  },
+  textBlock: {
+    flex: 1,
+    paddingRight: spacing.md,
   },
   title: {
-    fontSize: 17,
-    fontWeight: "500",
-    paddingBottom: 5,
+    fontSize: 16,
+    fontWeight: "700",
+    color: colors.text,
+    paddingBottom: 4,
   },
   subtitle: {
-    paddingBottom: 5,
-    color: "gray",
+    paddingBottom: 4,
+    color: colors.textSecondary,
+    fontSize: 13,
   },
   price: {
-    color: "gray",
+    color: colors.accent,
+    fontWeight: "700",
+  },
+  macroRow: {
+    flexDirection: "row",
+    gap: spacing.xs,
+    marginBottom: spacing.sm,
+  },
+  macroTag: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    backgroundColor: colors.surfaceHigh,
+    paddingVertical: 3,
+    paddingHorizontal: spacing.sm,
+    borderRadius: radius.pill,
+  },
+  macroTagText: {
+    color: colors.textSecondary,
+    fontSize: 11,
+    fontWeight: "700",
   },
   image: {
-    height: 75,
-    aspectRatio: 1,
-    alignSelf: "center",
+    height: 72,
+    width: 72,
+    borderRadius: radius.md,
   },
 });

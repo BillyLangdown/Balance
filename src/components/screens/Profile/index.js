@@ -7,25 +7,25 @@ import {
 } from "react-native";
 import React from "react";
 import profiles from "../../../../assets/data/profiles.json";
-import { Ionicons, Fontisto } from "@expo/vector-icons";
+import { Ionicons, Fontisto, MaterialIcons } from "@expo/vector-icons";
 import { useAuthenticator } from "@aws-amplify/ui-react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { Card, Button } from "../../ui";
+import { colors, radius, spacing, typography } from "../../../theme";
 
 const Profile = () => {
   const { signOut } = useAuthenticator();
   const profile = profiles[0];
 
-  const SignoutButton = ({ item }) => {
-    if (item.key === "Sign Out") {
-      return (
-        <TouchableOpacity onPress={() => signOut()}>
-          <View style={styles.signout}>
-            <Text style={styles.signoutText}>{item.key}</Text>
-          </View>
-        </TouchableOpacity>
-      );
-    }
-    return <Text style={styles.item}>{item.key}</Text>;
+  const ListRow = ({ item }) => {
+    if (item.key === "Sign Out") return null;
+    return (
+      <TouchableOpacity>
+        <Card style={styles.item}>
+          <Text style={styles.itemText}>{item.key}</Text>
+          <MaterialIcons name="chevron-right" size={20} color={colors.textMuted} />
+        </Card>
+      </TouchableOpacity>
+    );
   };
 
   const data = [
@@ -34,132 +34,97 @@ const Profile = () => {
     { key: "Help" },
     { key: "Promotions" },
     { key: "Set up your business profile" },
-    { key: "Sign Out" },
   ];
 
   return (
-    <LinearGradient
-      colors={["#3C4142", "#f2f2f2"]}
-      style={styles.container}
-      start={[0, 0]}
-      end={[0, 0.3]}
-    >
+    <View style={styles.container}>
       <FlatList
         data={data}
+        showsVerticalScrollIndicator={false}
         ListHeaderComponent={() => (
-          <View style={styles.ListHeaderComponent}>
-            <View style={styles.headerRow}>
-              <View style={styles.profileInfo}>
-                <Text style={styles.hey}>Hey,</Text>
-                <Text style={styles.title}>{profile.fullname}</Text>
-              </View>
-            </View>
+          <View style={styles.headerSection}>
+            <Text style={styles.hey}>Hey,</Text>
+            <Text style={styles.title}>{profile.fullname}</Text>
             <View style={styles.iconRow}>
               <View style={styles.iconContainer}>
-                <Ionicons name="wallet" size={32} color="#333" />
+                <Ionicons name="wallet" size={26} color={colors.text} />
               </View>
               <View style={styles.iconContainer}>
-                <Ionicons name="heart" size={32} color="#333" />
+                <Ionicons name="heart" size={26} color={colors.text} />
               </View>
               <View style={styles.iconContainer}>
-                <Fontisto name="history" size={32} color="#333" />
+                <Fontisto name="history" size={24} color={colors.text} />
               </View>
             </View>
           </View>
         )}
-        renderItem={SignoutButton}
-        ListFooterComponent={() => <View style={styles.footer} />}
+        renderItem={ListRow}
+        ListFooterComponent={() => (
+          <Button
+            label="Sign Out"
+            variant="danger"
+            onPress={() => signOut()}
+            style={styles.signout}
+          />
+        )}
         keyExtractor={(item) => item.key}
         contentContainerStyle={styles.contentContainer}
       />
-    </LinearGradient>
+    </View>
   );
 };
 
 export default Profile;
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    flexGrow: 1,
-    paddingTop: 40,
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-  },
-  headerRow: {
-    paddingTop: 50,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-    borderBottomColor: "lightgrey",
-    borderBottomWidth: 1,
-    paddingBottom: 20,
-    marginBottom: 20,
-  },
-  profileInfo: {
+  container: {
     flex: 1,
+    backgroundColor: colors.bg,
+  },
+  contentContainer: {
+    paddingTop: 64,
+    paddingHorizontal: spacing.lg,
+    paddingBottom: spacing.xl,
+  },
+  headerSection: {
+    marginBottom: spacing.xl,
+  },
+  hey: {
+    ...typography.display,
+    fontSize: 34,
   },
   title: {
-    fontSize: 40,
-    fontWeight: "700",
-    marginLeft: 20,
-  },
-  subtitle: {
-    fontSize: 16,
-  },
-  image: {
-    height: 100,
-    width: 100,
-    borderRadius: 50,
-    borderWidth: 3,
-    borderColor: "lightgrey",
-  },
-  item: {
-    fontSize: 16,
-    fontWeight: "500",
-    backgroundColor: "#EDEDED",
-    marginVertical: 5,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 25,
-    color: "#333",
-  },
-  signout: {
-    marginTop: 40,
-    backgroundColor: "orange",
-    marginVertical: 10,
-    paddingVertical: 12,
-    marginHorizontal: 60,
-    borderRadius: 25,
-    alignItems: "center",
-  },
-  signoutText: {
-    fontSize: 15,
-    fontWeight: "500",
-    color: "white",
-  },
-  iconContainer: {
-    backgroundColor: "lightgrey",
-    width: 80,
-    height: 80,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 15,
+    ...typography.h1,
+    marginBottom: spacing.lg,
   },
   iconRow: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    gap: spacing.md,
   },
-  ListHeaderComponent: {
-    paddingHorizontal: 10,
-    borderBottomColor: "lightgrey",
-    paddingBottom: 20,
-    borderBottomWidth: 1,
-    marginBottom: 10,
+  iconContainer: {
+    backgroundColor: colors.surfaceHigh,
+    width: 64,
+    height: 64,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
-  hey: {
-    fontSize: 60,
-    fontWeight: "700",
-    color: "white",
+  item: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.lg,
+    marginBottom: spacing.sm,
+  },
+  itemText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: colors.text,
+  },
+  signout: {
+    marginTop: spacing.lg,
   },
 });
